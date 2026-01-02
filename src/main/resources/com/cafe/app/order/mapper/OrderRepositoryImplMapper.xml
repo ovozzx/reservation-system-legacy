@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe.app.order.repository.impl.OrderRepositoryImpl">
+	<select id="selectMenuList"
+	        parameterType="string"
+	        resultType="com.cafe.app.menu.vo.MenuVO">
+		SELECT MENU_ID
+			, NAME
+			, PRICE
+			, IS_AVAILABLE
+			, CREATED_AT
+			, UPDATED_AT
+			, IS_USED
+			, CATEGORY_ID
+		  FROM MENU
+		 WHERE CATEGORY_ID = #{category}
+	</select>
+	<select id="selectMenuDetail"
+		    parameterType="string"
+	        resultType="com.cafe.app.menu.vo.MenuVO">
+		SELECT MENU_ID
+			, NAME
+			, PRICE
+			, IS_AVAILABLE
+			, CREATED_AT
+			, UPDATED_AT
+			, IS_USED
+			, CATEGORY_ID
+			, IMAGE_PATH
+			, DESCRIPTION
+		  FROM MENU
+		 WHERE MENU_ID = #{id}
+	</select>
+	<insert id="insertOrder"
+	        parameterType="com.cafe.app.order.vo.PaymentResponse">
+		<selectKey keyProperty="orderId"
+			       resultType="java.lang.String"
+		           order="BEFORE">
+			SELECT 'ORDR-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_ORDERS.NEXTVAL, 6, '0')
+	          FROM DUAL
+		</selectKey>
+		INSERT INTO ORDERS 
+			( ORDER_ID
+			, USER_ID
+			, STATUS
+			, CREATED_TIME
+			, UPDATED_TIME
+			, IS_USED)
+			VALUES
+			(#{orderId}
+			,''
+			,'요청'
+			, SYSDATE
+			, SYSDATE
+			, 'Y')
+	</insert>
+	<insert id="insertOrderItem"
+	        parameterType="map">
+	    <selectKey keyProperty="orderItemId"
+			       resultType="java.lang.String"
+		           order="BEFORE">
+			SELECT 'ODIT-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_ORDER_ITEM.NEXTVAL, 6, '0')
+	          FROM DUAL
+		</selectKey>
+	     INSERT INTO ORDER_ITEM
+             ( ORDER_ITEM_ID
+             , ORDER_ID
+             , MENU_ID
+             , QUANTITY
+             , "SEQUENCE"
+             , CREATED_TIME
+             , UPDATED_TIME
+             , IS_USED)
+          VALUES
+          (#{orderItemId}
+          , #{orderId}
+          , #{menuVO.menuId}
+          , 1 
+          , 0
+          , SYSDATE 
+          , SYSDATE 
+          , 'Y' )
+	
+	</insert>
+ </mapper>
