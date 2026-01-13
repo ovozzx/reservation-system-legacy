@@ -81,7 +81,7 @@ body {
   padding: 16px;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.15s ease;
 }
 
@@ -258,3 +258,39 @@ body {
   background-color: #e2e6ea;
 }
 
+/* 시작 화면 (먹고가기, 포장하기) */
+/* 전체 화면 중앙 정렬 */
+.order-container {
+  display: flex;
+  flex-direction: column; /* 가로로 하고 싶으면 row */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 30px;
+}
+
+/* 공통 버튼 스타일 */
+.order-btn {
+  width: 320px;
+  height: 100px;
+  font-size: 32px;
+  font-weight: bold;
+  background-color: #ff6f3c;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* 호버 효과 */
+.order-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+/* 클릭 시 */
+.order-btn:active {
+  transform: scale(0.98);
+}

@@ -28,6 +28,13 @@ public class OrderController {
 //    public OrderController(OrderService orderService) {
 //        this.orderService = orderService;
 //    }
+
+    // 시작 화면 : 먹고가기 or 포장하기
+	@GetMapping("/")
+	public String viewStartPage() {
+		// return "index";
+		return "order/start";
+	}
 	
 	// 음료 주문 화면 
 	@GetMapping("/order")
@@ -142,5 +149,7 @@ public class OrderController {
 		paymentResponse.setStatus("success");
 		return paymentResponse;
 	}
-	// 로그아웃
+
+	
+
 }
