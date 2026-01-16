@@ -22,8 +22,9 @@ public class AuthController {
         return "user/register";
     }   
     @PostMapping("/register")
-    public String actionRegister() {
+    public String actionRegister(RequestLoginVO requestLoginVO) {
         // 회원가입 처리 로직 필요
+        this.authService.register(requestLoginVO);
         return "redirect:/login";
     }
 
@@ -32,6 +33,7 @@ public class AuthController {
     public String viewLoginPage() {
         return "user/login";
     }
+     
 
     @PostMapping("/login")
     public String actionLogin(RequestLoginVO requestLoginVO, HttpSession session) {

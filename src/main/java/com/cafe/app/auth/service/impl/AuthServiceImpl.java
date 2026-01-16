@@ -3,6 +3,7 @@ package com.cafe.app.auth.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.cafe.app.auth.service.AuthService;
+import com.cafe.app.common.util.PasswordUtil;
 import com.cafe.app.user.vo.RequestLoginVO;
 
 @Service
@@ -20,6 +21,17 @@ public class AuthServiceImpl implements AuthService{
             return false;
         }
 
+    }
+
+    @Override
+    public void register(RequestLoginVO requestLoginVO) {
+        // salt 발급 
+        System.out.println(PasswordUtil.generateSalt());
+
+        // salt로 비밀번호 해시
+
+        // DB에 회원정보 저장 : salt, 해시 패스워드 
+        // throw new UnsupportedOperationException("Unimplemented method 'register'");
     }
 
 }

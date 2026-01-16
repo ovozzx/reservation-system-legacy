@@ -6,4 +6,8 @@ public interface AuthService {
 
     boolean login(RequestLoginVO requestLoginVO);
 
+    void register(RequestLoginVO requestLoginVO);
+
+    
+
 }
