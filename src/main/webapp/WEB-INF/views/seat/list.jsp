@@ -11,16 +11,25 @@
     <script type='text/javascript' src='/js/seat/seat.js'></script>
   </head>
   <body>
+	<c:if test="${not empty msg}">
+		<script>
+			alert("${msg}");
+		</script>
+	</c:if>
+	<form id="seatForm" action="/seat" method="post">
 	<div class="modal">
-		<div class="modal-content">
-			<div>시간 설정</div>
-			<div class="time" id="one-hour">1 시간</div>
-			<div class="time" id="two-hour">2 시간</div>
-			<div class="time" id="three-hour">3 시간</div>
-			<div class="modal-buttons">
-				<button class="cancle">취소</button>
-				<button class="complete" disabled>완료</button>
-			</div>
+		<div class="modal-content">	
+				<div>시간 설정</div>
+				<input id="seatId" name="seatId" data-seat-id="" type="hidden">
+				<input id="reserveTime" name="reserveTime" data-time="" type="hidden">
+				<input value="${orderId}" name="orderId" type="hidden">
+				<div class="time" id="one-hour" data-time="1">1 시간</div>
+				<div class="time" id="two-hour" data-time="2">2 시간</div>
+				<div class="time" id="three-hour" data-time="3">3 시간</div>
+				<div class="modal-buttons">
+					<button type="button" class="cancle">취소</button>
+					<button type="button" class="complete" disabled>완료</button>
+				</div>
 		</div>
     </div> 
     <div class="wrapper">
@@ -38,6 +47,7 @@
 			<div class="left-area">
 				<c:forEach var="seat" items="${leftSeatList}">
 					<button class="seat" 
+							type="button"
 					        data-id="${seat.seatId}"
 						    ${seat.isOccupied eq 'Y' ? 'disabled' : ''}> <!-- 사용 가능 좌석 N -->
 						${seat.seatNumber}
@@ -59,6 +69,7 @@
 			<div class="window-area">
 				<c:forEach var="seat" items="${windowSeatList}">
 					<button class="seat" 
+							type="button"
 					        data-id="${seat.seatId}"
 						    ${seat.isOccupied eq 'Y' ? 'disabled' : ''}> <!-- 사용 가능 좌석 N -->
 						${seat.seatNumber}
@@ -72,11 +83,12 @@
 				<div>남은 좌석</div>
 				<div>남은 시간</div>
 			  </div>
-	          <div class="button-container">
-				<button id="payment">결제하기</button>				
+	          <div class="button-container">	
+					<button id="payment" type="submit">결제하기</button>				
 			  </div>
         </div>
 	
     </div>
+	</form>
   </body>
 </html>

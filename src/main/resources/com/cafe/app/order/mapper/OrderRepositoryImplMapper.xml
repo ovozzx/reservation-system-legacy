@@ -69,7 +69,7 @@
              , ORDER_ID
              , MENU_ID
              , QUANTITY
-             , "SEQUENCE"
+             , ORDER_SEQ
              , CREATED_TIME
              , UPDATED_TIME
              , IS_USED)
@@ -82,6 +82,23 @@
           , SYSDATE 
           , SYSDATE 
           , 'Y' )
-	
 	</insert>
+	<select id="readItemCountById"
+	        parameterType="com.cafe.app.seat.vo.RequestTempVO"
+			resultType="int">	
+		SELECT COUNT(*)
+		FROM ORDER_ITEM 
+		WHERE ORDER_ID = #{orderId}
+	</select>
+	<select id="readItemSummaryById"
+	        parameterType="string"
+			resultType="com.cafe.app.order.vo.ItemSummaryVO">
+		SELECT m.NAME 
+		, oi.QUANTITY 
+		, m.PRICE 
+	      FROM ORDER_ITEM oi
+	     INNER JOIN MENU m
+		    ON oi.MENU_ID  = m.MENU_ID 
+	     WHERE oi.ORDER_ID = #{orderId}
+	</select>
  </mapper>

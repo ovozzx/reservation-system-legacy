@@ -15,4 +15,36 @@
 		     , SEAT_COL
 		  FROM SEAT
 	</select>
+	<insert id="insertTempSeat"
+		    parameterType="com.cafe.app.seat.vo.RequestTempVO">
+		<selectKey keyProperty="reservationId"
+				   resultType="java.lang.String"
+				   order="BEFORE">
+			SELECT 'RSRV-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_RESERVATION.NEXTVAL, 6, '0')
+              FROM DUAL
+		</selectKey>
+		INSERT INTO RESERVATION
+		(RESERVATION_ID
+		, ORDER_ID
+		, SEAT_ID
+		, RESERVE_DATE
+		, START_TIME
+		, END_TIME
+		, STATUS
+		, CREATED_TIME
+		, UPDATED_TIME
+		, IS_USED)
+		VALUES
+		( #{reservationId}
+		, #{orderId}
+		, #{seatId}
+		, SYSDATE
+		, SYSDATE
+		, SYSDATE + (#{reserveTime} / 24)
+		, 'TEMP'
+		, SYSDATE 
+		, SYSDATE 
+		, 'Y' )
+	</insert>
+
  </mapper>

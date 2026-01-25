@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe.app.auth.repository.impl.AuthRepositoryImpl">
+	<insert id="saveRegisterInfo"
+	        parameterType="com.cafe.app.user.vo.RequestRegisterVO">
+		INSERT INTO USERS
+		( USER_ID
+		, EMAIL
+		, PASSWORD
+		, SALT
+		, "ROLE"
+		, CREATED_TIME
+		, UPDATED_TIME
+		, IS_USED)
+		VALUES
+		( #{userId}
+		, #{email}
+		, #{password}
+		, #{salt}
+		, 'USER'
+		, SYSDATE 
+		, SYSDATE 
+		, 'Y' )
+	</insert>
+	<select id="readSaltAndPwById"
+	        parameterType="com.cafe.app.user.vo.RequestLoginVO"
+			resultType="com.cafe.app.user.vo.VerifyLoginVO">
+	SELECT SALT
+		 , PASSWORD 
+	  FROM USERS
+	 WHERE USER_ID = #{userId}
+	</select>
+ </mapper>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe.app.seat.repository.SeatRepository;
+import com.cafe.app.seat.vo.RequestTempVO;
 import com.cafe.app.seat.vo.SeatVO;
 
 @Repository
@@ -23,6 +24,11 @@ public class SeatRepositoryImpl extends SqlSessionDaoSupport implements SeatRepo
 	@Override
 	public List<SeatVO> selectAllSeats() {
 		return super.getSqlSession().selectList(this.NAME_SPACE + "selectAllSeats");
+	}
+
+	@Override
+	public int insertTempSeat(RequestTempVO requestTempVO) {
+		return super.getSqlSession().insert(this.NAME_SPACE + "insertTempSeat", requestTempVO);
 	}
 
 }

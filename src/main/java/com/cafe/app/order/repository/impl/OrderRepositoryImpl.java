@@ -10,8 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import com.cafe.app.menu.vo.MenuVO;
 import com.cafe.app.order.repository.OrderRepository;
+import com.cafe.app.order.vo.ItemSummaryVO;
 import com.cafe.app.order.vo.OrderItemVO;
 import com.cafe.app.order.vo.PaymentResponse;
+import com.cafe.app.order.vo.RequestOrderVO;
+import com.cafe.app.seat.vo.RequestTempVO;
 
 @Repository
 public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRepository{
@@ -34,14 +37,24 @@ public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRe
 	}
 
 	@Override
-	public int insertOrder(PaymentResponse paymentResponse) {
-		return super.getSqlSession().insert(this.NAME_SPACE + "insertOrder", paymentResponse);
+	public int insertOrder(RequestOrderVO requestOrderVO) {
+		return super.getSqlSession().insert(this.NAME_SPACE + "insertOrder", requestOrderVO);
 	}
 
 
 	@Override
 	public int insertOrderItem(Map<String, Object> map) {
 		return super.getSqlSession().insert(this.NAME_SPACE + "insertOrderItem", map);
+	}
+
+	@Override
+	public int readItemCountById(RequestTempVO requestTempVO) {
+		return super.getSqlSession().selectOne(this.NAME_SPACE + "readItemCountById", requestTempVO);
+	}
+
+	@Override
+	public List<ItemSummaryVO> readItemSummaryById(String orderId) {
+		return super.getSqlSession().selectList(this.NAME_SPACE + "readItemSummaryById", orderId);
 	}
 
 

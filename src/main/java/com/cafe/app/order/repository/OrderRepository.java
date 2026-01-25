@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.cafe.app.menu.vo.MenuVO;
+import com.cafe.app.order.vo.ItemSummaryVO;
 import com.cafe.app.order.vo.PaymentResponse;
+import com.cafe.app.order.vo.RequestOrderVO;
+import com.cafe.app.seat.vo.RequestTempVO;
 
 public interface OrderRepository {
 
@@ -12,8 +15,12 @@ public interface OrderRepository {
 
 	MenuVO selectMenuDetail(String menuId);
 
-	int insertOrder(PaymentResponse paymentResponse);
+	int insertOrder(RequestOrderVO requestOrderVO);
 
 	int insertOrderItem(Map<String, Object> map);
+
+	int readItemCountById(RequestTempVO requestTempVO);
+
+	List<ItemSummaryVO> readItemSummaryById(String orderId);
 
 }

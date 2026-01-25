@@ -13,8 +13,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.cafe.app.menu.vo.MenuVO;
 import com.cafe.app.order.repository.OrderRepository;
 import com.cafe.app.order.service.OrderService;
+import com.cafe.app.order.vo.ItemSummaryVO;
 import com.cafe.app.order.vo.OrderItemVO;
 import com.cafe.app.order.vo.PaymentResponse;
+import com.cafe.app.order.vo.RequestOrderVO;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -91,6 +93,33 @@ public class OrderServiceImpl implements OrderService{
                 .bodyToMono(PaymentResponse.class)
                 .block();
 	
+	}
+
+	@Override
+	public RequestOrderVO saveOrder(RequestOrderVO requestOrderVO) {
+		int cnt = 0;
+		// ORDERS INSERT : order 최초 1번만 생성
+		if(requestOrderVO.getOrderId() == null) {			
+			cnt += this.orderRepository.insertOrder(requestOrderVO);
+			System.out.println("orderId after insertOrder = " + requestOrderVO);
+		}
+		// selectKey를 통해 설정한 orderId 사용 가능.. 
+		// ORDER_ITEM INSERT 
+		// TODO : 개선해보자
+		for(MenuVO menuVO : requestOrderVO.getMenuVOList()) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("orderId", requestOrderVO.getOrderId() );
+			map.put("menuVO", menuVO);
+			cnt += this.orderRepository.insertOrderItem(map);
+		}
+		requestOrderVO.setStatus(cnt + "");
+		
+		return requestOrderVO;
+	}
+
+	@Override
+	public List<ItemSummaryVO> readItemSummaryById(String orderId) {
+		return this.orderRepository.readItemSummaryById(orderId);
 	}
 
 

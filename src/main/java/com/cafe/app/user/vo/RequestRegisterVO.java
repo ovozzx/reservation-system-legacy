@@ -5,6 +5,7 @@ public class RequestRegisterVO {
     private String userId;
     private String password;
     private String email;
+    private String salt;
     
     public String getUserId() {
         return userId;
@@ -24,11 +25,18 @@ public class RequestRegisterVO {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getSalt() {
+        return salt;
+    }
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
     @Override
     public String toString() {
-        return "RequestRegisterVO [userId=" + userId + ", password=" + password + ", email=" + email + "]";
+        return "RequestRegisterVO [userId=" + userId + ", password=" + password + ", email=" + email + ", salt=" + salt
+                + "]";
     }   
-
+    
     
 
 }
