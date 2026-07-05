@@ -1,5 +1,6 @@
 package com.cafe.app.auth.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,9 +46,13 @@ public class AuthController {
      
 
     @PostMapping("/login")
-    public String actionLogin(RequestLoginVO requestLoginVO, Model model, HttpSession session) {
+    public String actionLogin(RequestLoginVO requestLoginVO, Model model, HttpServletRequest request) {
         boolean isLogin = authService.login(requestLoginVO);
         if (isLogin) {
+            // HttpServletRequest :  HTTP 요청 전체 정보
+            // HttpSession : 세션만 다루는 객체 -> 새 세션 생성 불가
+            request.getSession().invalidate(); // 기존 세션 무효화, 같은 브라우저는 JSESSIONID를 공유
+            HttpSession session = request.getSession(true);  // 새 세션 생성 -> 새 JSESSIONID 발급
             session.setAttribute("userId", requestLoginVO.getUserId()); // 기존 세션이 없으면 새 세션 생성
             return "redirect:/order"; // 로그인 성공 시 주문 페이지로 리다이렉트
         } else{
