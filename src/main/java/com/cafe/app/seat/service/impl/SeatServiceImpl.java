@@ -39,29 +39,24 @@ public class SeatServiceImpl implements SeatService{
 		if(itemCnt != requestTempVO.getSeatIdList().size()){
 			throw new IllegalArgumentException("음료 수만큼 좌석을 선택해 주세요.");
 		}
+
+
 	 	// TODO : 예약 시간 다르게 가능..?
 		int totalResult = 0;
 
 		for(String seatId : requestTempVO.getSeatIdList()){
 			requestTempVO.setSeatId(seatId);
+			// 좌석 상태 확인
+			String status = this.seatRepository.readSeatStatus(seatId);
+			if(!"AVAILABLE".equals(status)){
+				throw new IllegalArgumentException(seatId + " 이미 예약 중인 좌석입니다.");
+			}
 			int result = this.seatRepository.insertTempSeat(requestTempVO);
+			this.seatRepository.updateSeatStatus(seatId);
 			totalResult += result;
 		}
 
 		return totalResult == itemCnt;
-
-		// 조회된 음료 수만큼 좌석 선택 
-		// 현재 오류 : 동일 좌석을 여러번 INSERT 하는 구조 
-		/* 
-		while(itemCnt > seatCnt){
-			int result = this.seatRepository.insertTempSeat(requestTempVO);
-			if(result != 1){ // 실패 시 즉시 종료 (무한 루프 방지)
-				throw new IllegalArgumentException("좌석 임시 예약 실패");
-			}
-			seatCnt += result;
-		}
-		return itemCnt == seatCnt;
-		*/
 	}
 
 }

@@ -49,29 +49,29 @@
 					<button class="seat" 
 							type="button"
 					        data-id="${seat.seatId}"
-						    ${seat.isOccupied eq 'Y' ? 'disabled' : ''}> <!-- 사용 가능 좌석 N -->
+						    ${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
 						${seat.seatNumber}
 					</button>
 				</c:forEach>
 			</div>
 			<div class="aisle-area">
-				
+
 			</div>
 			<div class="right-area">
 				<c:forEach var="seat" items="${rightSeatList}">
-					<button class="seat" 
+					<button class="seat"
 					        data-id="${seat.seatId}"
-						    ${seat.isOccupied eq 'Y' ? 'disabled' : ''}> <!-- 사용 가능 좌석 N -->
+						    ${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
 						${seat.seatNumber}
 					</button>
 				</c:forEach>
 			</div>
 			<div class="window-area">
 				<c:forEach var="seat" items="${windowSeatList}">
-					<button class="seat" 
+					<button class="seat"
 							type="button"
 					        data-id="${seat.seatId}"
-						    ${seat.isOccupied eq 'Y' ? 'disabled' : ''}> <!-- 사용 가능 좌석 N -->
+						    ${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
 						${seat.seatNumber}
 					</button>
 				</c:forEach>

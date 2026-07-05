@@ -11,4 +11,7 @@ public interface SeatRepository {
 
     int insertTempSeat(RequestTempVO requestTempVO);
 
+    int updateSeatStatus(String seatId);
+
+    String readSeatStatus(String seatId);
 }

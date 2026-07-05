@@ -31,4 +31,15 @@ public class SeatRepositoryImpl extends SqlSessionDaoSupport implements SeatRepo
 		return super.getSqlSession().insert(this.NAME_SPACE + "insertTempSeat", requestTempVO);
 	}
 
+	@Override
+	public int updateSeatStatus(String seatId) {
+		return super.getSqlSession().update(this.NAME_SPACE + "updateSeatStatus", seatId);
+	}
+
+	@Override
+	public String readSeatStatus(String seatId) {
+		return super.getSqlSession().selectOne(this.NAME_SPACE + "selectSeatStatus", seatId);
+	}
+
+
 }

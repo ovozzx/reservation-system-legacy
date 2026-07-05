@@ -7,10 +7,9 @@
 	        resultType="com.cafe.app.seat.vo.SeatVO">
 		SELECT SEAT_ID
 		     , SEAT_NUMBER
-		     , IS_OCCUPIED
+		     , STATUS
 		     , CREATED_TIME
 		     , UPDATED_TIME
-		     , IS_USED
 		     , SEAT_ROW
 		     , SEAT_COL
 		  FROM seat
@@ -40,5 +39,19 @@
 		, NOW()
 		, 'Y' )
 	</insert>
+	<update id="updateSeatStatus"
+			parameterType="string">
+		UPDATE seat
+		   SET STATUS = 'IN_PROGRESS'
+		 WHERE SEAT_ID = #{seatId}
+	</update>
+	<select id="selectSeatStatus"
+			parameterType="string"
+			resultType="string">
+		SELECT STATUS
+		  FROM seat
+		 WHERE SEAT_ID = #{seatId}
+		   FOR UPDATE
+	</select>
 
  </mapper>
