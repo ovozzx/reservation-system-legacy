@@ -49,7 +49,7 @@ public class SeatServiceImpl implements SeatService{
 		for(String seatId : requestTempVO.getSeatIdList()){
 			requestTempVO.setSeatId(seatId);
 			// 좌석 상태 확인
-			SeatVO seat = this.seatRepository.readSeatStatus(seatId);
+			SeatVO seat = this.seatRepository.selectSeatForUpdate(seatId);
 			if(!"AVAILABLE".equals(seat.getStatus())){
 				throw new IllegalArgumentException(seat.getSeatNumber() + " 이미 예약 중인 좌석입니다.");
 			}

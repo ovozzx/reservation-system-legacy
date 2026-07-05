@@ -45,7 +45,7 @@
 		   SET STATUS = #{status}
 		 WHERE SEAT_ID = #{seatId}
 	</update>
-	<select id="selectSeatStatus"
+	<select id="selectSeatForUpdate"
 			parameterType="string"
 			resultType="com.cafe.app.seat.vo.SeatVO">
 		SELECT SEAT_NUMBER

@@ -14,7 +14,7 @@ public interface SeatRepository {
 
     int updateSeatStatus(Map<String, String> param);
 
-    SeatVO readSeatStatus(String seatId);
+    SeatVO selectSeatForUpdate(String seatId);
 
     List<String> selectExpiredSeats();
 

@@ -38,8 +38,8 @@ public class SeatRepositoryImpl extends SqlSessionDaoSupport implements SeatRepo
 	}
 
 	@Override
-	public SeatVO readSeatStatus(String seatId) {
-		return super.getSqlSession().selectOne(this.NAME_SPACE + "selectSeatStatus", seatId);
+	public SeatVO selectSeatForUpdate(String seatId) {
+		return super.getSqlSession().selectOne(this.NAME_SPACE + "selectSeatForUpdate", seatId);
 	}
 
 	@Override
