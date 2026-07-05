@@ -5,13 +5,13 @@ import java.util.Map;
 
 import com.cafe.app.menu.vo.MenuVO;
 import com.cafe.app.order.vo.ItemSummaryVO;
-import com.cafe.app.order.vo.PaymentResponse;
 import com.cafe.app.order.vo.RequestOrderVO;
+import com.cafe.app.order.vo.SeatSummaryVO;
 import com.cafe.app.seat.vo.RequestTempVO;
 
 public interface OrderRepository {
 
-	List<MenuVO> selectMenuList(String category);
+	List<MenuVO> selectMenuList(int category);
 
 	MenuVO selectMenuDetail(String menuId);
 
@@ -23,4 +23,5 @@ public interface OrderRepository {
 
 	List<ItemSummaryVO> readItemSummaryById(String orderId);
 
+	List<SeatSummaryVO> readSeatSummaryById(String orderId);
 }

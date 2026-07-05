@@ -3,6 +3,7 @@ package com.cafe.app.order.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cafe.app.order.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe.app.menu.vo.MenuVO;
 import com.cafe.app.order.service.OrderService;
-import com.cafe.app.order.vo.ItemSummaryVO;
-import com.cafe.app.order.vo.OrderItemVO;
-import com.cafe.app.order.vo.PaymentResponse;
-import com.cafe.app.order.vo.RequestOrderVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -41,9 +38,10 @@ public class OrderController {
 	
 	// 음료 주문 화면 
 	@GetMapping("/order")
-	public String viewOrderPage() {
- 		// model.addAttribute("menuList", menuList);
-		// System.out.println("출력 : " + menuList);
+	public String viewOrderPage(Model model) {
+		List<MenuVO> menuList = orderService.getMenuList(1);
+ 		model.addAttribute("menuList", menuList);
+		System.out.println("출력 : " + menuList);
 		return "order/list";
 	}
 	
@@ -55,10 +53,11 @@ public class OrderController {
 //		if(category == null) {			
 //			category = "1";
 //		} 
-		List<MenuVO> menuList = this.orderService.getMenuList(category);
+		//List<MenuVO> menuList = this.orderService.getMenuList(category);
  		// model.addAttribute("menuList", menuList);
 		// System.out.println("출력 : " + menuList);
-		return menuList;
+		//return menuList;
+		return null;
 	}
 	
 	// 음료 상세보기 화면
@@ -68,31 +67,7 @@ public class OrderController {
 		model.addAttribute("menu", menuVO);
 		System.out.println("출력 : " + menuVO);
 		return "order/detail";
-	}	
-	
-	// 장바구니 담기
-	/* 
-	@PostMapping("/order/cart")
-	public String doOrderCart(MenuVO menuVO, HttpSession session) { // 결제 전까지 세션에서 관리
-		//session.removeAttribute("cart");
-		// session.invalidate();
-		// 기존 값 READ
-		List<MenuVO> cartList;
-		if(session.getAttribute("cart") == null) { // 담은 메뉴 없을 때 
-			cartList = new ArrayList<>();
-		} else { // 담은 메뉴 있을 때
-			cartList = (List<MenuVO>) session.getAttribute("cart");
-		}
-		
-		// 담은 메뉴 추가 
-		cartList.add(menuVO);	
-		// 담은 메뉴 취소 
-		// 세션에서 같은 key로 하면 덮어쓰기 됨
-		session.setAttribute("cart", cartList);
-		System.out.println("세션 정보 : " + session.getAttribute("cart"));
-		// redirect : url 변경 (다른 엔드 포인트 다시 요청) 
-		return "redirect:/order";
-	}*/
+	}
 
 	// 장바구니 담기 (세션)
 	@PostMapping("/order/cart")
@@ -127,8 +102,7 @@ public class OrderController {
 		requestOrderVO.setMenuVOList(orderList);
 		this.orderService.saveOrder(requestOrderVO);
 		// redirect 후, 페이지 이동 시 아래 값은 사라진다
-		redirectAttributes.addFlashAttribute("orderId", requestOrderVO.getOrderId());
-
+		redirectAttributes.addAttribute("orderId", requestOrderVO.getOrderId()); // URL로 붙어서 감
 		return "redirect:/seat"; // redirect => 다시 get 요청
 	}
 
@@ -198,7 +172,9 @@ public class OrderController {
 	public String readOrderSummary(@PathVariable String orderId, Model model, HttpSession session) {
 		// 음료 조회
 		List<ItemSummaryVO> itemList = this.orderService.readItemSummaryById(orderId);
+		List<SeatSummaryVO> seatList = this.orderService.readSeatSummaryById(orderId);
 		model.addAttribute("itemList", itemList);
+		model.addAttribute("seatList", seatList);
 		// 좌석 조회
 		// this.orderService.readSeatSummaryById(orderId);
 		return "order/summary";

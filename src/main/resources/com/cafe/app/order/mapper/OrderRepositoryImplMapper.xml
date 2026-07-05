@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafe.app.order.repository.impl.OrderRepositoryImpl">
 	<select id="selectMenuList"
-	        parameterType="string"
+	        parameterType="int"
 	        resultType="com.cafe.app.menu.vo.MenuVO">
 		SELECT MENU_ID
 			, NAME
@@ -14,7 +14,8 @@
 			, UPDATED_AT
 			, IS_USED
 			, CATEGORY_ID
-		  FROM MENU
+			, IMAGE_PATH
+		  FROM menu
 		 WHERE CATEGORY_ID = #{category}
 	</select>
 	<select id="selectMenuDetail"
@@ -30,65 +31,51 @@
 			, CATEGORY_ID
 			, IMAGE_PATH
 			, DESCRIPTION
-		  FROM MENU
+		  FROM menu
 		 WHERE MENU_ID = #{id}
 	</select>
 	<insert id="insertOrder"
-	        parameterType="com.cafe.app.order.vo.PaymentResponse">
-		<selectKey keyProperty="orderId"
-			       resultType="java.lang.String"
-		           order="BEFORE">
-			SELECT 'ORDR-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_ORDERS.NEXTVAL, 6, '0')
-	          FROM DUAL
-		</selectKey>
-		INSERT INTO ORDERS 
-			( ORDER_ID
-			, USER_ID
+	        parameterType="com.cafe.app.order.vo.RequestOrderVO"
+			useGeneratedKeys="true"
+			keyProperty="orderId">
+		INSERT INTO orders
+			( USER_ID
 			, STATUS
 			, CREATED_TIME
 			, UPDATED_TIME
 			, IS_USED)
 			VALUES
-			(#{orderId}
-			,''
-			,'요청'
-			, SYSDATE
-			, SYSDATE
+			( 'test'
+			,'ORDERED'
+			, NOW()
+			, NOW()
 			, 'Y')
 	</insert>
 	<insert id="insertOrderItem"
-	        parameterType="map">
-	    <selectKey keyProperty="orderItemId"
-			       resultType="java.lang.String"
-		           order="BEFORE">
-			SELECT 'ODIT-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_ORDER_ITEM.NEXTVAL, 6, '0')
-	          FROM DUAL
-		</selectKey>
-	     INSERT INTO ORDER_ITEM
-             ( ORDER_ITEM_ID
-             , ORDER_ID
+	        parameterType="map"
+			useGeneratedKeys="true"
+			keyProperty="orderItemId">
+	     INSERT INTO order_item
+             ( ORDER_ID
              , MENU_ID
              , QUANTITY
-             , ORDER_SEQ
              , CREATED_TIME
              , UPDATED_TIME
              , IS_USED)
           VALUES
-          (#{orderItemId}
-          , #{orderId}
+          ( #{orderId}
           , #{menuVO.menuId}
-          , 1 
-          , 0
-          , SYSDATE 
-          , SYSDATE 
+          , 1
+          , NOW()
+          , NOW()
           , 'Y' )
 	</insert>
 	<select id="readItemCountById"
 	        parameterType="com.cafe.app.seat.vo.RequestTempVO"
 			resultType="int">	
 		SELECT COUNT(*)
-		FROM ORDER_ITEM 
-		WHERE ORDER_ID = #{orderId}
+		  FROM order_item
+		 WHERE ORDER_ID = #{orderId}
 	</select>
 	<select id="readItemSummaryById"
 	        parameterType="string"
@@ -96,9 +83,20 @@
 		SELECT m.NAME 
 		, oi.QUANTITY 
 		, m.PRICE 
-	      FROM ORDER_ITEM oi
-	     INNER JOIN MENU m
+	      FROM order_item oi
+	     INNER JOIN menu m
 		    ON oi.MENU_ID  = m.MENU_ID 
 	     WHERE oi.ORDER_ID = #{orderId}
+	</select>
+	<select id="readSeatSummaryById"
+			parameterType="string"
+			resultType="com.cafe.app.order.vo.SeatSummaryVO">
+		SELECT S.SEAT_NUMBER
+		     , R.START_TIME
+		     , R.END_TIME
+		  FROM reservation R
+		 INNER JOIN seat S
+		    ON R.SEAT_ID = S.SEAT_ID
+		 WHERE R.ORDER_ID = #{orderId}
 	</select>
  </mapper>

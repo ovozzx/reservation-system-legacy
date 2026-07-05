@@ -3,6 +3,7 @@ package com.cafe.app.order.repository.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.cafe.app.order.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.cafe.app.menu.vo.MenuVO;
 import com.cafe.app.order.repository.OrderRepository;
-import com.cafe.app.order.vo.ItemSummaryVO;
-import com.cafe.app.order.vo.OrderItemVO;
-import com.cafe.app.order.vo.PaymentResponse;
-import com.cafe.app.order.vo.RequestOrderVO;
 import com.cafe.app.seat.vo.RequestTempVO;
 
 @Repository
@@ -27,7 +24,7 @@ public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRe
     }
 	
 	@Override
-	public List<MenuVO> selectMenuList(String category) {
+	public List<MenuVO> selectMenuList(int category) {
 		return super.getSqlSession().selectList(this.NAME_SPACE + "selectMenuList", category);
 	}
 
@@ -57,6 +54,9 @@ public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRe
 		return super.getSqlSession().selectList(this.NAME_SPACE + "readItemSummaryById", orderId);
 	}
 
-
+	@Override
+	public List<SeatSummaryVO> readSeatSummaryById(String orderId) {
+		return super.getSqlSession().selectList(this.NAME_SPACE + "readSeatSummaryById", orderId);
+	}
 
 }

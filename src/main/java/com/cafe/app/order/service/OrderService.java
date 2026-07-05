@@ -3,14 +3,11 @@ package com.cafe.app.order.service;
 import java.util.List;
 
 import com.cafe.app.menu.vo.MenuVO;
-import com.cafe.app.order.vo.ItemSummaryVO;
-import com.cafe.app.order.vo.OrderItemVO;
-import com.cafe.app.order.vo.PaymentResponse;
-import com.cafe.app.order.vo.RequestOrderVO;
+import com.cafe.app.order.vo.*;
 
 public interface OrderService {
 
-	List<MenuVO> getMenuList(String category);
+	List<MenuVO> getMenuList(int category);
 
 	MenuVO getMenuDetail(String menuId);
 
@@ -22,4 +19,5 @@ public interface OrderService {
 
 	List<ItemSummaryVO> readItemSummaryById(String orderId);
 
+	List<SeatSummaryVO> readSeatSummaryById(String orderId);
 }

@@ -99,6 +99,10 @@ body {
   justify-content: center;
   font-size: 14px;
   color: #777;
+  & > img{
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .content-box li div:nth-child(2) {

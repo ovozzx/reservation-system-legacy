@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cafe.app.order.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.cafe.app.menu.vo.MenuVO;
 import com.cafe.app.order.repository.OrderRepository;
 import com.cafe.app.order.service.OrderService;
-import com.cafe.app.order.vo.ItemSummaryVO;
-import com.cafe.app.order.vo.OrderItemVO;
-import com.cafe.app.order.vo.PaymentResponse;
-import com.cafe.app.order.vo.RequestOrderVO;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -35,7 +32,7 @@ public class OrderServiceImpl implements OrderService{
 	private OrderRepository orderRepository;
 	
 	@Override
-	public List<MenuVO> getMenuList(String category) {
+	public List<MenuVO>getMenuList (int category) {
 		
 		return this.orderRepository.selectMenuList(category);
 	}
@@ -51,7 +48,7 @@ public class OrderServiceImpl implements OrderService{
 		int cnt = 0;
 		// ORDERS INSERT : order 최초 1번만 생성
 		if(paymentResponse.getOrderId() == null) {			
-			cnt += this.orderRepository.insertOrder(paymentResponse);
+			cnt += 0;//this.orderRepository.insertOrder(paymentResponse);
 			System.out.println("orderId after insertOrder = " + paymentResponse);
 		}
 		// selectKey를 통해 설정한 orderId 사용 가능.. 
@@ -97,18 +94,18 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public RequestOrderVO saveOrder(RequestOrderVO requestOrderVO) {
-		int cnt = 0;
+
 		// ORDERS INSERT : order 최초 1번만 생성
-		if(requestOrderVO.getOrderId() == null) {			
-			cnt += this.orderRepository.insertOrder(requestOrderVO);
-			System.out.println("orderId after insertOrder = " + requestOrderVO);
-		}
+		this.orderRepository.insertOrder(requestOrderVO);
+		System.out.println("orderId after insertOrder = " + requestOrderVO);
+
 		// selectKey를 통해 설정한 orderId 사용 가능.. 
 		// ORDER_ITEM INSERT 
 		// TODO : 개선해보자
+		int cnt = 0;
 		for(MenuVO menuVO : requestOrderVO.getMenuVOList()) {
 			Map<String, Object> map = new HashMap<>();
-			map.put("orderId", requestOrderVO.getOrderId() );
+			map.put("orderId", requestOrderVO.getOrderId());
 			map.put("menuVO", menuVO);
 			cnt += this.orderRepository.insertOrderItem(map);
 		}
@@ -120,6 +117,11 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public List<ItemSummaryVO> readItemSummaryById(String orderId) {
 		return this.orderRepository.readItemSummaryById(orderId);
+	}
+
+	@Override
+	public List<SeatSummaryVO> readSeatSummaryById(String orderId) {
+		return this.orderRepository.readSeatSummaryById(orderId);
 	}
 
 

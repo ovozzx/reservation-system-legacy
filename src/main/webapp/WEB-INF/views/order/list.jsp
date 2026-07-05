@@ -24,13 +24,13 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
       <div class="content-box">
         <ul class="menus">
-          <!--<c:forEach var="menu" items="${menuList}">
-					<li class="menu" data-id="${menu.menuId}"
-						<div>사진</div>
+          <c:forEach var="menu" items="${menuList}">
+					<li class="menu" data-id="${menu.menuId}">
+						<div><img src="${menu.imagePath}"></div>
 						<div>${menu.name}</div>
 						<div>${menu.price} 원</div>
 					</li>
-				</c:forEach>-->
+          </c:forEach>
         </ul>
       </div>
       <div class="bottom">

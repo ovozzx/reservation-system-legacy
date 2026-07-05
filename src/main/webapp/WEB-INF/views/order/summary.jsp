@@ -24,6 +24,9 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
       <div class="seat">
         <h2 id="main-title">좌석</h2>
+        <c:forEach var="seat" items="${seatList}">
+          <li>${seat.seatNumber} ${seat.startTime} ~ ${seat.endTime}</li>
+        </c:forEach>
       </div>
       <button>결제하기</button>
     </div>
