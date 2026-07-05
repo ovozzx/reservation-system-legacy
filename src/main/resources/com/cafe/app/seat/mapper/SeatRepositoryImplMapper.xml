@@ -40,18 +40,36 @@
 		, 'Y' )
 	</insert>
 	<update id="updateSeatStatus"
-			parameterType="string">
+			parameterType="map">
 		UPDATE seat
-		   SET STATUS = 'IN_PROGRESS'
+		   SET STATUS = #{status}
 		 WHERE SEAT_ID = #{seatId}
 	</update>
 	<select id="selectSeatStatus"
 			parameterType="string"
-			resultType="string">
-		SELECT STATUS
+			resultType="com.cafe.app.seat.vo.SeatVO">
+		SELECT SEAT_NUMBER
+		     , STATUS
 		  FROM seat
 		 WHERE SEAT_ID = #{seatId}
 		   FOR UPDATE
 	</select>
+	<select id="selectExpiredSeats"
+			resultType="string">
+		SELECT S.SEAT_ID
+		  FROM reservation R
+		 INNER JOIN seat S
+	 	    ON R.SEAT_ID = S.SEAT_ID
+		 WHERE NOW() > R.END_TIME
+		   AND R.STATUS IN ('TEMP', 'CONFIRMED') <!-- 다음 배치 실행 시 중복 처리 제외 -->
+	</select>
+	<update id="updateReservationStatus"
+			parameterType="string">
+		UPDATE reservation
+		   SET STATUS = 'EXPIRED'
+		     , UPDATED_TIME = NOW()
+		 WHERE SEAT_ID = #{seatId}
+		   AND NOW() > END_TIME
+	</update>
 
  </mapper>

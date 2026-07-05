@@ -11,4 +11,5 @@ public interface SeatService {
 
     boolean saveTempSeat(RequestTempVO requestTempVO);
 
+    void checkSeatStatus();
 }

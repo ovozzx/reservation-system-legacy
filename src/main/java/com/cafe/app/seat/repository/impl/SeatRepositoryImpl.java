@@ -1,6 +1,7 @@
 package com.cafe.app.seat.repository.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -32,13 +33,23 @@ public class SeatRepositoryImpl extends SqlSessionDaoSupport implements SeatRepo
 	}
 
 	@Override
-	public int updateSeatStatus(String seatId) {
-		return super.getSqlSession().update(this.NAME_SPACE + "updateSeatStatus", seatId);
+	public int updateSeatStatus(Map<String, String> param) {
+		return super.getSqlSession().update(this.NAME_SPACE + "updateSeatStatus", param);
 	}
 
 	@Override
-	public String readSeatStatus(String seatId) {
+	public SeatVO readSeatStatus(String seatId) {
 		return super.getSqlSession().selectOne(this.NAME_SPACE + "selectSeatStatus", seatId);
+	}
+
+	@Override
+	public List<String> selectExpiredSeats() {
+		return super.getSqlSession().selectList(this.NAME_SPACE + "selectExpiredSeats");
+	}
+
+	@Override
+	public int updateReservationStatus(String seatId) {
+		return super.getSqlSession().update(this.NAME_SPACE + "updateReservationStatus", seatId);
 	}
 
 

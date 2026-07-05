@@ -1,6 +1,8 @@
 package com.cafe.app.seat.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,16 +49,36 @@ public class SeatServiceImpl implements SeatService{
 		for(String seatId : requestTempVO.getSeatIdList()){
 			requestTempVO.setSeatId(seatId);
 			// 좌석 상태 확인
-			String status = this.seatRepository.readSeatStatus(seatId);
-			if(!"AVAILABLE".equals(status)){
-				throw new IllegalArgumentException(seatId + " 이미 예약 중인 좌석입니다.");
+			SeatVO seat = this.seatRepository.readSeatStatus(seatId);
+			if(!"AVAILABLE".equals(seat.getStatus())){
+				throw new IllegalArgumentException(seat.getSeatNumber() + " 이미 예약 중인 좌석입니다.");
 			}
 			int result = this.seatRepository.insertTempSeat(requestTempVO);
-			this.seatRepository.updateSeatStatus(seatId);
+			Map<String, String> param = new HashMap<>();
+			param.put("seatId", seatId);
+			param.put("status", "IN_PROGRESS");
+			this.seatRepository.updateSeatStatus(param);
 			totalResult += result;
 		}
 
 		return totalResult == itemCnt;
+	}
+
+	@Override
+	@Transactional
+	public void checkSeatStatus() {
+		// seat > status > AVAILABLE, IN_PROGRESS, RESERVED
+		List<String> seatIdList = this.seatRepository.selectExpiredSeats();
+
+		for(String seatId : seatIdList){
+			// 예약 만료 처리
+			this.seatRepository.updateReservationStatus(seatId);
+			// 좌석 만료 처리
+			Map<String, String> param = new HashMap<>();
+			param.put("seatId", seatId);
+			param.put("status", "AVAILABLE");
+			this.seatRepository.updateSeatStatus(param);
+		}
 	}
 
 }

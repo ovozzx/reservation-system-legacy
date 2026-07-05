@@ -1,6 +1,7 @@
 package com.cafe.app.seat.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cafe.app.seat.vo.RequestTempVO;
 import com.cafe.app.seat.vo.SeatVO;
@@ -11,7 +12,11 @@ public interface SeatRepository {
 
     int insertTempSeat(RequestTempVO requestTempVO);
 
-    int updateSeatStatus(String seatId);
+    int updateSeatStatus(Map<String, String> param);
 
-    String readSeatStatus(String seatId);
+    SeatVO readSeatStatus(String seatId);
+
+    List<String> selectExpiredSeats();
+
+    int updateReservationStatus(String seatId);
 }
