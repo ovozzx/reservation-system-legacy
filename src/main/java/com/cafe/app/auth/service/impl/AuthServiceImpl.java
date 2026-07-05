@@ -21,10 +21,13 @@ public class AuthServiceImpl implements AuthService{
         // 해당 id의 salt 값(Base64 문자)을 DB에서 조회
         // A 해당 id의 password 값(Base64 문자)을 DB에서 조회
         VerifyLoginVO verifyLoginVO = this.authRepository.readSaltAndPwById(requestLoginVO);
+        if(verifyLoginVO == null){
+            return false;
+        }
         // B 입력된 비밀번호 조회된 salt로 해시처리
-        String inputPassword = PasswordUtil.hashPassword(requestLoginVO.getPassword(), verifyLoginVO.getSalt()); // 입력한 패스워드, 조회한 salt => Base64 문자열 
-        // A == B 일치 여부 확인 
-        if(verifyLoginVO != null && inputPassword.equals(verifyLoginVO.getPassword())){
+        String inputPassword = PasswordUtil.hashPassword(requestLoginVO.getPassword(), verifyLoginVO.getSalt()); // 입력한 패스워드, 조회한 salt => Base64 문자열
+        // A == B 일치 여부 확인
+        if(inputPassword.equals(verifyLoginVO.getPassword())){
             return true;
         }
         else{

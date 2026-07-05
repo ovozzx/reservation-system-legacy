@@ -5,12 +5,12 @@
 <mapper namespace="com.cafe.app.auth.repository.impl.AuthRepositoryImpl">
 	<insert id="saveRegisterInfo"
 	        parameterType="com.cafe.app.user.vo.RequestRegisterVO">
-		INSERT INTO USERS
+		INSERT INTO users
 		( USER_ID
 		, EMAIL
 		, PASSWORD
 		, SALT
-		, "ROLE"
+		, ROLE
 		, CREATED_TIME
 		, UPDATED_TIME
 		, IS_USED)
@@ -20,8 +20,8 @@
 		, #{password}
 		, #{salt}
 		, 'USER'
-		, SYSDATE 
-		, SYSDATE 
+		, NOW()
+		, NOW()
 		, 'Y' )
 	</insert>
 	<select id="readSaltAndPwById"
@@ -29,7 +29,7 @@
 			resultType="com.cafe.app.user.vo.VerifyLoginVO">
 	SELECT SALT
 		 , PASSWORD 
-	  FROM USERS
+	  FROM users
 	 WHERE USER_ID = #{userId}
 	</select>
  </mapper>
