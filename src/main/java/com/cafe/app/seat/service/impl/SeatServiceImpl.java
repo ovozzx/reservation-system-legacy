@@ -36,13 +36,13 @@ public class SeatServiceImpl implements SeatService{
 			return false;
 		}
 
-		if(itemCnt > requestTempVO.getSeatIdList().size()){
+		if(itemCnt != requestTempVO.getSeatIdList().size()){
 			throw new IllegalArgumentException("음료 수만큼 좌석을 선택해 주세요.");
 		}
-
+	 	// TODO : 예약 시간 다르게 가능..?
 		int totalResult = 0;
 
-		for(String  seatId : requestTempVO.getSeatIdList()){
+		for(String seatId : requestTempVO.getSeatIdList()){
 			requestTempVO.setSeatId(seatId);
 			int result = this.seatRepository.insertTempSeat(requestTempVO);
 			totalResult += result;

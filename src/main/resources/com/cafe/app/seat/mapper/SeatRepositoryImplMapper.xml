@@ -8,24 +8,19 @@
 		SELECT SEAT_ID
 		     , SEAT_NUMBER
 		     , IS_OCCUPIED
-		     , CREATED_TIME 
+		     , CREATED_TIME
 		     , UPDATED_TIME
 		     , IS_USED
 		     , SEAT_ROW
 		     , SEAT_COL
-		  FROM SEAT
+		  FROM seat
 	</select>
 	<insert id="insertTempSeat"
-		    parameterType="com.cafe.app.seat.vo.RequestTempVO">
-		<selectKey keyProperty="reservationId"
-				   resultType="java.lang.String"
-				   order="BEFORE">
-			SELECT 'RSRV-' || TO_CHAR(SYSDATE, 'YYYYMMDD-') || LPAD(SEQ_RESERVATION.NEXTVAL, 6, '0')
-              FROM DUAL
-		</selectKey>
-		INSERT INTO RESERVATION
-		(RESERVATION_ID
-		, ORDER_ID
+		    parameterType="com.cafe.app.seat.vo.RequestTempVO"
+			useGeneratedKeys="true"
+			keyProperty="reservationId">
+		INSERT INTO reservation
+		( ORDER_ID
 		, SEAT_ID
 		, RESERVE_DATE
 		, START_TIME
@@ -35,15 +30,14 @@
 		, UPDATED_TIME
 		, IS_USED)
 		VALUES
-		( #{reservationId}
-		, #{orderId}
+		( #{orderId}
 		, #{seatId}
-		, SYSDATE
-		, SYSDATE
-		, SYSDATE + (#{reserveTime} / 24)
+		, NOW()
+		, NOW()
+		, NOW() + INTERVAL #{reserveTime} HOUR
 		, 'TEMP'
-		, SYSDATE 
-		, SYSDATE 
+		, NOW()
+		, NOW()
 		, 'Y' )
 	</insert>
 
