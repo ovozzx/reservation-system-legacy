@@ -20,4 +20,8 @@ public interface OrderService {
 	List<ItemSummaryVO> readItemSummaryById(String orderId);
 
 	List<SeatSummaryVO> readSeatSummaryById(String orderId);
+
+	int readAmountById(String orderId);
+
+	PaymentResponse validateAmount(PaymentValidVO paymentValidVO);
 }

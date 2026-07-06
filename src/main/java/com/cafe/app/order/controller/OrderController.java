@@ -7,11 +7,7 @@ import com.cafe.app.order.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe.app.menu.vo.MenuVO;
@@ -48,16 +44,8 @@ public class OrderController {
 	// 음료 주문 필터
 	@ResponseBody
 	@GetMapping("/order/filter")
-	public List<MenuVO> viewOrderFilter(@RequestParam(required = false) String category, Model model) {
-
-//		if(category == null) {			
-//			category = "1";
-//		} 
-		//List<MenuVO> menuList = this.orderService.getMenuList(category);
- 		// model.addAttribute("menuList", menuList);
-		// System.out.println("출력 : " + menuList);
-		//return menuList;
-		return null;
+	public List<MenuVO> viewOrderFilter(@RequestParam(defaultValue = "1") int category) {
+		return this.orderService.getMenuList(category);
 	}
 	
 	// 음료 상세보기 화면
@@ -108,47 +96,27 @@ public class OrderController {
 
 	// 결제 
 	@ResponseBody
-	@GetMapping("/payment")
-	public PaymentResponse doClickPayment(HttpSession session) {
-		
-		// if(session.getAttribute("cart") == null) {
-		// 	throw new IllegalArgumentException("결제할 메뉴가 없습니다.");
-		// }
-		
-		// List<MenuVO> paymentList = (List<MenuVO>) session.getAttribute("cart");
-		// PaymentResponse paymentResponse = new PaymentResponse();
-		
-		// paymentResponse.setMenuVOList(paymentList);
-		// // TODO : 결제수정 
-		// // 주문 + 주문 상세 테이블 INSERT => 읽은 값 넣기 
-		// paymentResponse = this.orderService.doActionOrderCart(paymentResponse);
+	@GetMapping("/payment/{orderId}")
+	public PaymentResponse doClickPayment(@PathVariable String orderId,HttpSession session) {
 
-		// int totalPrice = 0;
-		// for(MenuVO menu : paymentList) {
-		// 	totalPrice += menu.getPrice();
-		// }
-		
-		// paymentResponse.setAmount(totalPrice);
-		
-		// return paymentResponse;
-		return null;
+		PaymentResponse paymentResponse = new PaymentResponse();
+		int totalPrice = this.orderService.readAmountById(orderId);
+		paymentResponse.setOrderId(orderId);
+		paymentResponse.setAmount(totalPrice);
+		return paymentResponse;
 	}	
 	
 	// 결제 검증
 	@ResponseBody
-	@GetMapping("/payment/valid")
-	public PaymentResponse confirmValidPayment(HttpSession session) {
-	
-		PaymentResponse paymentResponse = new PaymentResponse();
-		// TODO
-		// 프론트 요청 값 == 우리 요청 값, 미적재 건 복구 
-		return paymentResponse;
+	@PostMapping("/payment/valid")
+	public PaymentResponse confirmValidPayment(@RequestBody PaymentValidVO paymentValidVO, HttpSession session) {
+		return this.orderService.validateAmount(paymentValidVO);
 	}	
 	
 	// 결제 성공
-	@GetMapping("/payment/success")
-	public String viewPaymentSuccess(HttpSession session) {
-		
+	@GetMapping("/payment/success/{orderId}")
+	public String viewPaymentSuccess(@PathVariable String orderId, HttpSession session, Model model) {
+		model.addAttribute("orderId", orderId);
 		return "payment/success";
 	}
 
@@ -175,6 +143,7 @@ public class OrderController {
 		List<SeatSummaryVO> seatList = this.orderService.readSeatSummaryById(orderId);
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("seatList", seatList);
+		model.addAttribute("orderId", orderId); // js에서 사용
 		// 좌석 조회
 		// this.orderService.readSeatSummaryById(orderId);
 		return "order/summary";

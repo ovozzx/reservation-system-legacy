@@ -24,4 +24,6 @@ public interface OrderRepository {
 	List<ItemSummaryVO> readItemSummaryById(String orderId);
 
 	List<SeatSummaryVO> readSeatSummaryById(String orderId);
+
+	int selectAmountById(String orderId);
 }

@@ -11,8 +11,7 @@
       	<h1>주문 완료</h1>
       </div>
 	  <div class="content-box">
-		결제 성공!
-		n 번
+		${orderId} 번
       </div>
     </div>
   </body>

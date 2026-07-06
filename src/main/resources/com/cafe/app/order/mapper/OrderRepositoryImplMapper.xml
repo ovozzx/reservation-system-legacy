@@ -43,13 +43,15 @@
 			, STATUS
 			, CREATED_TIME
 			, UPDATED_TIME
-			, IS_USED)
+			, IS_USED
+		    , AMOUNT)
 			VALUES
 			( 'test'
 			,'ORDERED'
 			, NOW()
 			, NOW()
-			, 'Y')
+			, 'Y'
+		    , #{amount})
 	</insert>
 	<insert id="insertOrderItem"
 	        parameterType="map"
@@ -98,5 +100,12 @@
 		 INNER JOIN seat S
 		    ON R.SEAT_ID = S.SEAT_ID
 		 WHERE R.ORDER_ID = #{orderId}
+	</select>
+	<select id="selectAmountById"
+			parameterType="string"
+			resultType="int">
+		SELECT AMOUNT
+		  FROM orders
+		 WHERE ORDER_ID = #{orderId}
 	</select>
  </mapper>

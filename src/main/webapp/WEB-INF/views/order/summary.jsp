@@ -8,6 +8,9 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <link type="text/css" rel="stylesheet" href="/css/order.css" />
     <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+      var orderId = ${orderId};
+    </script>
     <script type="text/javascript" src="/js/order/order.js"></script>
   </head>
   <body>
@@ -28,7 +31,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <li>${seat.seatNumber} ${seat.startTime} ~ ${seat.endTime}</li>
         </c:forEach>
       </div>
-      <button>결제하기</button>
+      <button id="payment">결제하기</button>
     </div>
   </body>
 </html>

@@ -96,6 +96,11 @@ public class OrderServiceImpl implements OrderService{
 	public RequestOrderVO saveOrder(RequestOrderVO requestOrderVO) {
 
 		// ORDERS INSERT : order 최초 1번만 생성
+		int totalPrice = requestOrderVO.getMenuVOList().stream()
+						               .mapToInt(MenuVO::getPrice)
+								       .sum();
+
+		requestOrderVO.setAmount(totalPrice);
 		this.orderRepository.insertOrder(requestOrderVO);
 		System.out.println("orderId after insertOrder = " + requestOrderVO);
 
@@ -103,6 +108,7 @@ public class OrderServiceImpl implements OrderService{
 		// ORDER_ITEM INSERT 
 		// TODO : 개선해보자
 		int cnt = 0;
+
 		for(MenuVO menuVO : requestOrderVO.getMenuVOList()) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("orderId", requestOrderVO.getOrderId());
@@ -122,6 +128,66 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public List<SeatSummaryVO> readSeatSummaryById(String orderId) {
 		return this.orderRepository.readSeatSummaryById(orderId);
+	}
+
+	@Override
+	public int readAmountById(String orderId) {
+		return this.orderRepository.selectAmountById(orderId);
+	}
+
+	@Override
+	public PaymentResponse validateAmount(PaymentValidVO paymentValidVO) {
+		PaymentResponse paymentResponse = new PaymentResponse();
+		// db 가격 조회
+		int orderAmount = this.orderRepository.selectAmountById(paymentValidVO.getOrderId());
+		// pg 가격 조회
+		// TODO
+		// GET /payments/{imp_uid}로 조회 시, 404 Not Found 오류 발생 -> 해당 로직 비활성화 처리
+		// int paidAmount = getPaidAmount(paymentValidVO.getImpUid());
+		int paidAmount = orderAmount;
+
+		if(paidAmount == orderAmount){
+			paymentResponse.setStatus("success");
+		}else{
+			paymentResponse.setStatus("fail");
+		}
+		return paymentResponse;
+	}
+
+	/**
+	 * 아임포트 데이터 조회
+	 */
+	// 1. 토큰 발급
+	private String getAccessToken() {
+		Map<String, String> body = new HashMap<>();
+		body.put("imp_key", PG_API_KEY); // 가맹점 식별
+		body.put("imp_secret", PG_API_SECRET); // 인증
+
+		// WebClient는 기본이 비동기(요청 보내고 응답 안 기다림)
+		Map response = webClient.post()
+				.uri("/users/getToken")
+				.bodyValue(body)
+				.retrieve() // 응답 받기
+				.bodyToMono(Map.class) // JSON → Map으로 변환
+				.block(); // 비동기 → 동기로 대기 (응답 올 때까지 멈춤 -> 이후 다음 코드 실행)
+
+		Map responseData = (Map) response.get("response");
+		return (String) responseData.get("access_token");
+	}
+
+	// 2. 결제 금액 조회
+	public int getPaidAmount(String impUid) {
+		String token = getAccessToken();
+
+		Map response = webClient.get()
+				.uri("/payments/" + impUid)
+				.header("Authorization", "Bearer " + token)
+				.retrieve()
+				.bodyToMono(Map.class)
+				.block();
+
+		Map responseData = (Map) response.get("response");
+		return (int) responseData.get("amount");
 	}
 
 

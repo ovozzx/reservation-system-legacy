@@ -41,12 +41,12 @@ $().ready(function () {
     //alert("!");
     IMP.init("imp26301316"); // 발급받은 가맹점 식별코드
 
-    $.get("/payment", function (response) {
+    $.get("/payment/" +  orderId, function (response) {
       console.log(response);
       console.log(response.orderId);
       console.log(response.amount);
 
-      // TODO : 주문 id
+      // TODO : 주문 id, 가격
 
       IMP.request_pay(
         {
@@ -62,39 +62,34 @@ $().ready(function () {
           // 결제 종료 시 호출되는 콜백 함수
           // response.imp_uid 값으로 결제 단건조회 API를 호출하여 결제 결과를 확인하고,
           // 결제 결과를 처리하는 로직을 작성
-          var impUid = response.imp_uid;
+
+          console.log("결제 콜백 response:", response);
+          console.log("imp_uid:", response.imp_uid);
+          console.log("merchant_uid:", response.merchant_uid);
+          console.log("paid_amount:", response.paid_amount);
+          console.log("status:", response.status);
           if (response.success == true) {
             alert("결제 완료");
           } else {
             alert("결제 실패");
           }
           // 서버에 결제 완료 저장
-
           $.ajax({
             url: "/payment/valid",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-              orderId: merchant_uid,
-              ordrDt: resOrdrDt,
-              ordrStts: resStatus,
-              resSuccess: resSuccess,
-              pymnt: "P001", // 카드
-              ttltyAmnt: resAmount,
-              resErrorCd: resErrorCd,
-              impUid: impUid,
+              orderId: response.merchant_uid,
+              impUid: response.imp_uid,
             }),
             //dataType: "json",
             success: function (response) {
-              // alert("결제가 완료되었습니다. 예약 확정!");
               // 결제 취소해도 여기로 온다!
-              console.log("서버 응답 완료");
-              console.log("~~ : ", $(".title").data("success"));
-              if (resSuccess == true && resStatus === "paid") {
-                window.location.href = "/payment/success";
+              if (response.status == "success") {
+                window.location.href = "/payment/success/" + orderId;
                 // 서버에서 redirect 안 먹음
               } else {
-                window.location.href = "/payment/fail";
+                alert("결제 실패");
               }
             },
             error: function (xhr, status, err) {
