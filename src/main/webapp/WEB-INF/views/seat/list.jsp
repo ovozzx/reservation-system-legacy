@@ -60,6 +60,7 @@
 			<div class="right-area">
 				<c:forEach var="seat" items="${rightSeatList}">
 					<button class="seat"
+							type="button"
 					        data-id="${seat.seatId}"
 						    ${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
 						${seat.seatNumber}
@@ -84,7 +85,7 @@
 				<div>남은 시간</div>
 			  </div>
 	          <div class="button-container">	
-					<button id="payment" type="submit">결제하기</button>				
+					<button id="reserveSeat" type="submit">좌석 예약</button>				
 			  </div>
         </div>
 	
