@@ -111,7 +111,7 @@ $().ready(function () {
   });
 
   function loadMenus(category) {
-    $.get("/order/filter?category=" + category, function (response) {
+    $.get("/order/filter?categoryId=" + category, function (response) {
       // 읽은 값 렌더링
       var html = "";
       response.forEach((menu) => {

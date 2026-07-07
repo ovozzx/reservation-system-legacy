@@ -44,8 +44,8 @@ public class OrderController {
 	// 음료 주문 필터
 	@ResponseBody
 	@GetMapping("/order/filter")
-	public List<MenuVO> viewOrderFilter(@RequestParam(defaultValue = "1") int category) {
-		return this.orderService.getMenuList(category);
+	public List<MenuVO> viewOrderFilter(@RequestParam int categoryId) {
+		return this.orderService.getMenuList(categoryId);
 	}
 	
 	// 음료 상세보기 화면
