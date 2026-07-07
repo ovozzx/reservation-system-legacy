@@ -49,11 +49,17 @@ public class AuthController {
     public String actionLogin(RequestLoginVO requestLoginVO, Model model, HttpServletRequest request) {
         boolean isLogin = authService.login(requestLoginVO);
         if (isLogin) {
+            // 먹고가기 (IN) 정보 유지를 위해 백업
+            HttpSession backup = request.getSession();
+            String orderType = (String) backup.getAttribute("orderType");
             // HttpServletRequest :  HTTP 요청 전체 정보
             // HttpSession : 세션만 다루는 객체 -> 새 세션 생성 불가
-            request.getSession().invalidate(); // 기존 세션 무효화, 같은 브라우저는 JSESSIONID를 공유
+            request.getSession().invalidate(); // 기존 세션 통째로 무효화, 같은 브라우저는 JSESSIONID를 공유
             HttpSession session = request.getSession(true);  // 새 세션 생성 -> 새 JSESSIONID 발급
             session.setAttribute("userId", requestLoginVO.getUserId()); // 기존 세션이 없으면 새 세션 생성
+            if(orderType != null){
+                session.setAttribute("orderType", orderType);
+            }
             return "redirect:/order"; // 로그인 성공 시 주문 페이지로 리다이렉트
         } else{
             model.addAttribute("loginMsg", "아이디 또는 패스워드가 일치하지 않습니다."); 

@@ -47,9 +47,18 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <div>남은 시간</div>
           <button id="remove">삭제</button>
           <c:if test="${not empty sessionScope.cart}">
-            <form action="/order" method="post">
-              <button id="seat">좌석예약</button>
-            </form>
+            <c:choose>
+              <c:when test="${sessionScope.orderType == 'IN'}">
+                <form action="/order" method="post">
+                  <!-- 먹고가기 -->
+                  <button id="seat">좌석예약</button>
+                </form>
+              </c:when>
+              <c:otherwise>
+                <!-- 포장하기 -->
+                <button id="payment">결제하기</button>
+              </c:otherwise>
+            </c:choose>
           </c:if>
         </div>
       </div>

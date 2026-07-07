@@ -47,6 +47,13 @@ public class OrderController {
 	public List<MenuVO> viewOrderFilter(@RequestParam int categoryId) {
 		return this.orderService.getMenuList(categoryId);
 	}
+
+	// 먹고가기 / 포장하기 구분 저장
+	@GetMapping("/order/start")
+	public String checkOrderType(@RequestParam String type, HttpSession session) {
+		session.setAttribute("orderType", type);
+		return "IN".equals(type) ? "redirect:/login" : "redirect:/order";
+	}
 	
 	// 음료 상세보기 화면
 	@GetMapping("/order/detail/{menuId}")

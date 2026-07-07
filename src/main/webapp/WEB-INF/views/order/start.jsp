@@ -12,10 +12,10 @@
     <div class="wrapper">
       <div class="content">
         <div class="order-container">zp
-          <button class="order-btn here" onclick="location.href='/login'">
+          <button class="order-btn here" onclick="location.href='/order/start?type=IN'">
             먹고가기
           </button>
-          <button class="order-btn take-out" onclick="location.href='/order'">
+          <button class="order-btn take-out" onclick="location.href='/order/start?type=TAKEOUT'">
             포장하기
           </button>
         </div>
