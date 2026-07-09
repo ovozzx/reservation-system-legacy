@@ -37,7 +37,7 @@
 	<insert id="insertOrder"
 	        parameterType="com.cafe.app.order.vo.RequestOrderVO"
 			useGeneratedKeys="true"
-			keyProperty="orderId">
+			keyProperty="orderId"> <!-- DB가 자동 생성한 키를 받아 옴, 키를 파라미터 객체의 필드에 넣음 -->
 		INSERT INTO orders
 			( USER_ID
 			, STATUS
