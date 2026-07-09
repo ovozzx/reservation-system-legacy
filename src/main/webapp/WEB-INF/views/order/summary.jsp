@@ -25,12 +25,14 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <li>${item.name} ${item.quantity} ${item.price}</li>
         </c:forEach>
       </div>
-      <div class="seat">
-        <h2 id="main-title">좌석</h2>
-        <c:forEach var="seat" items="${seatList}">
-          <li>${seat.seatNumber} ${seat.startTime} ~ ${seat.endTime}</li>
-        </c:forEach>
-      </div>
+      <c:if test="${sessionScope.orderType == 'IN'}">
+        <div class="seat">
+          <h2 id="main-title">좌석</h2>
+          <c:forEach var="seat" items="${seatList}">
+            <li>${seat.seatNumber} ${seat.startTime} ~ ${seat.endTime}</li>
+          </c:forEach>
+        </div>
+      </c:if>
       <button id="payment">결제하기</button>
     </div>
   </body>
