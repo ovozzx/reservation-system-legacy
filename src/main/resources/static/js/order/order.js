@@ -71,7 +71,7 @@ $().ready(function () {
           if (response.success == true) {
             alert("결제 완료");
           } else {
-            alert("결제 실패");
+            alert("결제 실패 ", response.error_msg);
           }
           // 서버에 결제 완료 저장
           $.ajax({
