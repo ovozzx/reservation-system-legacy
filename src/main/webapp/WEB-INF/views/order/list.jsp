@@ -56,7 +56,9 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
               </c:when>
               <c:otherwise>
                 <!-- 포장하기 -->
-                <button id="payment">결제하기</button>
+                <form action="/order/takeout" method="post">
+                  <button id="pay">결제하기</button>
+                </form>
               </c:otherwise>
             </c:choose>
           </c:if>
