@@ -32,13 +32,16 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
             <label for="password">비밀번호:</label>
             <input type="password" id="password" name="password" required />
           </div>
-          <button type="button">비회원 주문</button>
-          <button type="button" onclick="location.href='/register'">
-            회원가입
-          </button>
-          <button type="button">ID 찾기</button>
-          <button type="button">비밀번호 찾기</button>
           <button type="submit">로그인</button>
+          <div class="sub-links">
+            <a href="#">비회원 주문</a>
+            <span class="divider">|</span>
+            <a href="/register">회원가입</a>
+            <span class="divider">|</span>
+            <a href="#">ID 찾기</a>
+            <span class="divider">|</span>
+            <a href="#">비밀번호 찾기</a>
+          </div>
         </form>
       </div>
     </div>
