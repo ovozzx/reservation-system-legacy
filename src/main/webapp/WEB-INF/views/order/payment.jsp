@@ -5,7 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>결제하기</title>
-    <link type="text/css" rel="stylesheet" href="/css/hello-spring.css" />
     <link type="text/css" rel="stylesheet" href="/css/payment.css" />
     <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>

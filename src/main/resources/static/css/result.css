@@ -1,0 +1,90 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+/* ===== LAYOUT ===== */
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== HEADER ===== */
+.header {
+  width: 100%;
+  padding: 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 28px;
+}
+
+.header.success {
+  background-color: #3a2f2a;
+}
+
+.header.fail {
+  background-color: #c0392b;
+}
+
+/* ===== CONTENT ===== */
+.content-box {
+  margin-top: 80px;
+  padding: 40px;
+  text-align: center;
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.icon-circle.success {
+  background-color: #27ae60;
+}
+
+.icon-circle.fail {
+  background-color: #c0392b;
+}
+
+.message {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 40px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #3a2f2a;
+  border-radius: 12px;
+  transition: opacity 0.15s ease;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}

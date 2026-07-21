@@ -11,7 +11,7 @@
   <body>
     <div class="wrapper">
       <div class="content">
-        <div class="order-container">zp
+        <div class="order-container">
           <button class="order-btn here" onclick="location.href='/order/start?type=IN'">
             먹고가기
           </button>

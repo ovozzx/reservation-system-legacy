@@ -70,34 +70,35 @@ $().ready(function () {
           console.log("status:", response.status);
           if (response.success == true) {
             alert("결제 완료");
+            // 서버에 결제 완료 저장
+            $.ajax({
+              url: "/payment/valid",
+              type: "POST",
+              contentType: "application/json",
+              data: JSON.stringify({
+                orderId: response.merchant_uid,
+                impUid: response.imp_uid,
+              }),
+              //dataType: "json",
+              success: function (response) {
+                // 결제 취소해도 여기로 온다!
+                if (response.status == "success") {
+                  window.location.href = "/payment/success/" + orderId;
+                  // 서버에서 redirect 안 먹음
+                } else {
+                  alert("결제 실패");
+                }
+              },
+              error: function (xhr, status, err) {
+                console.error("서버 에러:", xhr.status, xhr.responseText);
+                alert("서버 요청 실패");
+                window.location.href = "/payment/fail";
+              },
+            });
           } else {
-            alert("결제 실패 ", response.error_msg);
+            alert("결제 실패 : " + response.error_msg);
           }
-          // 서버에 결제 완료 저장
-          $.ajax({
-            url: "/payment/valid",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-              orderId: response.merchant_uid,
-              impUid: response.imp_uid,
-            }),
-            //dataType: "json",
-            success: function (response) {
-              // 결제 취소해도 여기로 온다!
-              if (response.status == "success") {
-                window.location.href = "/payment/success/" + orderId;
-                // 서버에서 redirect 안 먹음
-              } else {
-                alert("결제 실패");
-              }
-            },
-            error: function (xhr, status, err) {
-              console.error("서버 에러:", xhr.status, xhr.responseText);
-              alert("서버 요청 실패");
-              window.location.href = "/payment/fail";
-            },
-          });
+
         }
       );
     });

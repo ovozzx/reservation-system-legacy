@@ -20,6 +20,8 @@
           <div class="form-group">
             <label for="password">비밀번호:</label>
             <input type="password" id="password" name="password" required />
+          </div>
+          <div class="form-group">
             <label for="confirmPassword">비밀번호 확인:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required />
           </div>

@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>결제 실패</title>
+    <link type="text/css" rel="stylesheet" href="/css/result.css" />
   </head>
   <body>
     <div class="wrapper">
-      <div class="header">
-      	<h1>주문 실패</h1>
+      <div class="header fail">
+        <h1>결제 실패</h1>
       </div>
-	  <div class="content-box">
-		결제 실패
-		n 번
+      <div class="content-box">
+        <div class="icon-circle fail">✕</div>
+        <p class="message">결제 처리 중 문제가 발생했습니다.</p>
+        <a href="/" class="btn">처음으로 돌아가기</a>
       </div>
     </div>
   </body>

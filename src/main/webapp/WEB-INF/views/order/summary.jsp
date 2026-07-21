@@ -5,7 +5,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>주문 내용 (음료/좌석)</title>
-    <link type="text/css" rel="stylesheet" href="/css/order.css" />
+    <link type="text/css" rel="stylesheet" href="/css/summary.css" />
     <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script>
@@ -16,24 +16,39 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <body>
     <div class="wrapper">
       <div class="header">
-        <h1 id="main-title">주문 내용</h1>
-        <p id="login-id">${sessionScope.userId}</p>
+        <h1>주문 내용</h1>
+        <p class="user-id">${sessionScope.userId}</p>
       </div>
-      <div class="drink">
-        <h2 id="main-title">음료</h2>
-        <c:forEach var="item" items="${itemList}">
-          <li>${item.name} ${item.quantity} ${item.price}</li>
-        </c:forEach>
-      </div>
-      <c:if test="${sessionScope.orderType == 'IN'}">
-        <div class="seat">
-          <h2 id="main-title">좌석</h2>
-          <c:forEach var="seat" items="${seatList}">
-            <li>${seat.seatNumber} ${seat.startTime} ~ ${seat.endTime}</li>
-          </c:forEach>
+      <div class="content-box">
+        <div class="section">
+          <h2>음료</h2>
+          <ul class="item-list">
+            <c:forEach var="item" items="${itemList}">
+              <li>
+                <span class="item-name">${item.name}</span>
+                <span class="item-qty">${item.quantity}개</span>
+                <span class="item-price">${item.price}원</span>
+              </li>
+            </c:forEach>
+          </ul>
         </div>
-      </c:if>
-      <button id="payment">결제하기</button>
+        <c:if test="${sessionScope.orderType == 'IN'}">
+          <div class="section">
+            <h2>좌석</h2>
+            <ul class="item-list">
+              <c:forEach var="seat" items="${seatList}">
+                <li>
+                  <span class="item-name">${seat.seatNumber}번</span>
+                  <span class="item-price">${seat.startTime} ~ ${seat.endTime}</span>
+                </li>
+              </c:forEach>
+            </ul>
+          </div>
+        </c:if>
+      </div>
+      <div class="bottom">
+        <button id="payment">결제하기</button>
+      </div>
     </div>
   </body>
 </html>

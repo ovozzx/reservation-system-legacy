@@ -1,0 +1,131 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+/* ===== LAYOUT ===== */
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr minmax(380px, 500px) 1fr;
+  min-height: 100vh;
+}
+
+.left-blank-div,
+.right-blank-div {
+  background-color: #f5f5f5;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background-color: #3a2f2a;
+  color: #fff;
+  padding: 20px 24px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header .icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* ===== CONTENT ===== */
+.content-box {
+  padding: 24px;
+  background: #fff;
+  min-height: calc(100vh - 64px);
+}
+
+.margin {
+  margin-bottom: 24px;
+}
+
+/* 제공자 정보 */
+.provider-info .name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.provider-info .content {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.provider-info .gray {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.provider-info .date {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 결제 금액 */
+.payment-box {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.payment-box .grow {
+  flex: 1;
+}
+
+.payment-box .amount {
+  font-size: 20px;
+  color: #e53935;
+  font-weight: bold;
+}
+
+/* 결제 버튼 */
+.payment {
+  width: 100%;
+  height: 52px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.payment:hover {
+  opacity: 0.85;
+}
+
+.payment.money {
+  background-color: #3a2f2a;
+  color: #fff;
+}
+
+.payment.card {
+  background-color: #ff6f3c;
+  color: #fff;
+}
