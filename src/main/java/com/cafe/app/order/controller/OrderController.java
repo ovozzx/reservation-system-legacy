@@ -73,9 +73,9 @@ public class OrderController {
 		} else { // 담은 메뉴 있을 때
 			cartList = (List<MenuVO>) session.getAttribute("cart");
 		}
-		
+		// TODO 동일 메뉴 수량 추가
 		// 담은 메뉴 추가 
-		cartList.add(menuVO);	
+		cartList.add(menuVO);
 		// 담은 메뉴 취소 
 		// 세션에서 같은 key로 하면 덮어쓰기 됨
 		session.setAttribute("cart", cartList);
