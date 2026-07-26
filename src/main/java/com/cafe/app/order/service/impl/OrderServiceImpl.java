@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService{
 
 		// ORDERS INSERT : order 최초 1번만 생성
 		int totalPrice = requestOrderVO.getMenuVOList().stream()
-						               .mapToInt(MenuVO::getPrice)
+						               .mapToInt(item -> item.getQuantity() * item.getPrice())
 								       .sum();
 
 		requestOrderVO.setAmount(totalPrice);
@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService{
 		// TODO : 개선해보자
 		int cnt = 0;
 
-		for(MenuVO menuVO : requestOrderVO.getMenuVOList()) {
+		for(CartItemVO menuVO : requestOrderVO.getMenuVOList()) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("orderId", requestOrderVO.getOrderId());
 			map.put("menuVO", menuVO);

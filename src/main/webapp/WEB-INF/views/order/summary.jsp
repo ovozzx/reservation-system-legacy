@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
-prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib prefix="fmt"
+uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -47,6 +48,12 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         </c:if>
       </div>
       <div class="bottom">
+        <div class="total-row">
+          <span class="total-label">합계</span>
+          <span class="total-amount">
+            <fmt:formatNumber value="${totalPrice}" pattern="#,###" />원
+          </span>
+        </div>
         <button id="payment">결제하기</button>
       </div>
     </div>

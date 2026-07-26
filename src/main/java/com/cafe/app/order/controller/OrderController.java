@@ -67,22 +67,36 @@ public class OrderController {
 	// 장바구니 담기 (세션)
 	@PostMapping("/order/cart")
 	public String doOrderCart(MenuVO menuVO, HttpSession session) {
-		List<MenuVO> cartList;
+		CartItemVO cartItemVO = new CartItemVO();
+		cartItemVO.setMenuId(menuVO.getMenuId());
+		cartItemVO.setName(menuVO.getName());
+		cartItemVO.setQuantity(1);
+		cartItemVO.setPrice(menuVO.getPrice());
+
+		List<CartItemVO> cartList;
 		if(session.getAttribute("cart") == null) { // 담은 메뉴 없을 때 
 			cartList = new ArrayList<>();
 		} else { // 담은 메뉴 있을 때
-			cartList = (List<MenuVO>) session.getAttribute("cart");
+			cartList = (List<CartItemVO>) session.getAttribute("cart");
 		}
 		// TODO 동일 메뉴 수량 추가
-		// 담은 메뉴 추가 
-		cartList.add(menuVO);
+		// 동일 메뉴 확인
+		CartItemVO existingItem = cartList.stream()
+				.filter(item -> item.getMenuId().equals(cartItemVO.getMenuId()))
+				.findFirst()
+				.orElse(null);
+
+		if(existingItem != null){
+			// 수량 증가
+			existingItem.setQuantity(existingItem.getQuantity() + 1);
+		}else{
+			// 담은 메뉴 추가
+			cartList.add(cartItemVO);
+		}
 		// 담은 메뉴 취소 
 		// 세션에서 같은 key로 하면 덮어쓰기 됨
 		session.setAttribute("cart", cartList);
 		System.out.println("세션 정보 : " + session.getAttribute("cart"));
-
-		RequestOrderVO requestOrderVO = new RequestOrderVO();
-		requestOrderVO.setMenuVOList(cartList);
 	
 		return "redirect:/order";
 	}
@@ -91,7 +105,7 @@ public class OrderController {
 	@PostMapping("/order")
 	public String doActionSaveOrder(HttpSession session, RedirectAttributes redirectAttributes) {
 		// 세션에서 가지고 있다가 ORDER 테이블에 한번에 넣기
-		List<MenuVO> orderList = (List<MenuVO>) session.getAttribute("cart");
+		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
 		RequestOrderVO requestOrderVO = new RequestOrderVO();
 
 		requestOrderVO.setMenuVOList(orderList);
@@ -104,7 +118,7 @@ public class OrderController {
 	// 포장하기 > 결제하기
 	@PostMapping("/order/takeout")
 	public String saveOrderForTakeOut(HttpSession session, RedirectAttributes redirectAttributes){
-		List<MenuVO> orderList = (List<MenuVO>) session.getAttribute("cart");
+		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
 		RequestOrderVO requestOrderVO = new RequestOrderVO();
 
 		requestOrderVO.setMenuVOList(orderList);
@@ -160,6 +174,8 @@ public class OrderController {
 		// 음료 조회
 		List<ItemSummaryVO> itemList = this.orderService.readItemSummaryById(orderId);
 		List<SeatSummaryVO> seatList = this.orderService.readSeatSummaryById(orderId);
+		int totalPrice = this.orderService.readAmountById(orderId);
+		model.addAttribute("totalPrice", totalPrice);
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("seatList", seatList);
 		model.addAttribute("orderId", orderId); // js에서 사용

@@ -39,7 +39,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <ul>
             이름 / 수량 / 가격
             <c:forEach var="item" items="${sessionScope.cart}">
-              <li>${item.name} 1 ${item.price}</li>
+              <li>${item.name} ${item.quantity} ${item.price}</li>
             </c:forEach>
           </ul>
         </div>

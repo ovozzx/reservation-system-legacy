@@ -67,7 +67,7 @@
           VALUES
           ( #{orderId}
           , #{menuVO.menuId}
-          , 1
+          , #{menuVO.quantity}
           , NOW()
           , NOW()
           , 'Y' )

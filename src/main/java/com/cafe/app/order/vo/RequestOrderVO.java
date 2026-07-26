@@ -11,7 +11,7 @@ public class RequestOrderVO {
 	private Long orderId;
     private String status;
     private int amount;
-    private List<MenuVO> menuVOList; 
+    private List<CartItemVO> menuVOList;
 
 
 }
