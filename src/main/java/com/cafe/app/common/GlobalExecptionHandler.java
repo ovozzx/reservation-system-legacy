@@ -8,11 +8,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExecptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExecptionHandler.class);
+
+    // favicon.ico, devtools 등 정적 리소스 404 무시
+    @ExceptionHandler(NoResourceFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleNoResource() {}
 
     // 500.jsp
     @ExceptionHandler(Exception.class) // 모든 예외의 최상위 부모 -> 구체적인 핸들러에 안 걸리는 예외는 전부 handleException에서 잡힘!
