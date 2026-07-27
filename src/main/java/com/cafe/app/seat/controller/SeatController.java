@@ -29,11 +29,13 @@ public class SeatController {
 		List<SeatVO> leftSeatList = seatList.stream().filter(seat -> seat.getSeatNumber().startsWith("L")).toList();
 		List<SeatVO> rightSeatList = seatList.stream().filter(seat -> seat.getSeatNumber().startsWith("R")).toList();
 		List<SeatVO> windowSeatList = seatList.stream().filter(seat -> seat.getSeatNumber().startsWith("W")).toList();
-		
+		int availableSeatCnt = (int) seatList.stream().filter(seat -> "AVAILABLE".equals(seat.getStatus())).count();
+
 		model.addAttribute("leftSeatList", leftSeatList);
 		model.addAttribute("rightSeatList", rightSeatList);
 		model.addAttribute("windowSeatList", windowSeatList);
 		model.addAttribute("orderId", orderId);
+		model.addAttribute("availableSeatCnt", availableSeatCnt);
 	
 		return "seat/list";
 	}

@@ -81,8 +81,8 @@
 	      </div>
           <div class="bottom">
 	          <div class="info">
-				<div>남은 좌석</div>
-				<div>남은 시간</div>
+				<div>남은 좌석 : <span>${availableSeatCnt}</span></div>
+				<div>남은 시간 : <span></span></div>
 			  </div>
 	          <div class="button-container">	
 					<button id="reserveSeat" type="submit">좌석 예약</button>				
