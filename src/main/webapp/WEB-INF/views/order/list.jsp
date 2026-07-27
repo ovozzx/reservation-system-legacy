@@ -15,6 +15,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       <div class="header">
         <h1 id="main-title">음료 주문</h1>
         <p id="login-id">${sessionScope.userId}</p>
+        <p id="back-start">처음으로 돌아가기</p>
       </div>
       <div class="category-box">
         <button class="category selected" data-category="1">커피 (Hot)</button>

@@ -228,7 +228,7 @@ public class OrderController {
 		List<CartItemVO> filteredList = orderList.stream()
 				.filter(item -> !item.getMenuId().equals(menuId))
 				.collect(Collectors.toList());
-		session.setAttribute("cart", filteredList); // 원본 수정 
+		session.setAttribute("cart", filteredList); // 원본 수정
 
 		return "success";
 	}

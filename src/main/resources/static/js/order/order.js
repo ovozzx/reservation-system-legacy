@@ -6,6 +6,10 @@ $().ready(function () {
     window.location.href = "/order";
   });
 
+  $("#back-start").on("click", function(){
+    window.location.href = "/";
+  });
+
   // 카테고리 필터링
   $("button.category").on("click", function () {
     $("button.category").removeClass("selected");

@@ -25,10 +25,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding: 0 20px;
 }
 
 .header h1 {
   font-size: 28px;
+}
+
+#back-start {
+  position: absolute;
+  right: 20px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+}
+
+#back-start:hover {
+  color: #fff;
 }
 
 /* ===== CATEGORY ===== */
