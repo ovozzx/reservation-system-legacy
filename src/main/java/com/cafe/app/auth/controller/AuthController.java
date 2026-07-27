@@ -80,7 +80,12 @@ public class AuthController {
     @GetMapping("/order/guest")
     public String guestOrder(HttpSession session){
         // 임시 ID 발급
-        session.setAttribute("userId", "GUEST_" + UUID.randomUUID().toString().substring(0, 8));
+        String userId = "GUEST_" + UUID.randomUUID().toString().substring(0, 8);
+        RequestRegisterVO requestRegisterVO = new RequestRegisterVO();
+        requestRegisterVO.setUserId(userId);
+        requestRegisterVO.setPassword(userId);
+        this.authService.register(requestRegisterVO);
+        session.setAttribute("userId", userId);
         return "redirect:/order";
     }
 
