@@ -35,6 +35,11 @@ $().ready(function () {
   });
 
   // 주문 삭제
+  $(".remove-btn").on("click", function (){
+    $.post("/order/cart/remove/" + $(this).data("menu-id"), function (response){
+      location.reload();
+    })
+  });
 
   // 삭제 클릭
   $("#remove").on("click", function () {

@@ -2,6 +2,7 @@ package com.cafe.app.order.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.cafe.app.order.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,5 +221,16 @@ public class OrderController {
 	}
 
 	// 삭제
+	@ResponseBody
+	@PostMapping("/order/cart/remove/{menuId}")
+	public String cartItemRemove(@PathVariable String menuId, HttpSession session) {
+		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
+		List<CartItemVO> filteredList = orderList.stream()
+				.filter(item -> !item.getMenuId().equals(menuId))
+				.collect(Collectors.toList());
+		session.setAttribute("cart", filteredList); // 원본 수정 
+
+		return "success";
+	}
 
 }
