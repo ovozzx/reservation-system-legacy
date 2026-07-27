@@ -14,6 +14,8 @@ import com.cafe.app.user.vo.RequestRegisterVO;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.UUID;
+
 @Controller
 public class AuthController {
     
@@ -73,6 +75,14 @@ public class AuthController {
 		session.invalidate();
 		return "redirect:/login";
 	}
+
+    // 먹고가기 > 비회원 주문
+    @GetMapping("/order/guest")
+    public String guestOrder(HttpSession session){
+        // 임시 ID 발급
+        session.setAttribute("userId", "GUEST_" + UUID.randomUUID().toString().substring(0, 8));
+        return "redirect:/order";
+    }
 
 	
 

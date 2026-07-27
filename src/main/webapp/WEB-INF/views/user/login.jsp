@@ -34,7 +34,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           </div>
           <button type="submit">로그인</button>
           <div class="sub-links">
-            <a href="#">비회원 주문</a>
+            <a href="/order/guest">비회원 주문</a>
             <span class="divider">|</span>
             <a href="/register">회원가입</a>
             <span class="divider">|</span>
