@@ -35,11 +35,21 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
       <div class="bottom">
         <div class="cart">
-          <div>담은 내용</div>
-          <ul>
-            이름 / 수량 / 가격
+          <div class="cart-header">
+            <span>담은 내용</span>
+          </div>
+          <ul class="cart-list">
             <c:forEach var="item" items="${sessionScope.cart}">
-              <li>${item.name} ${item.quantity} ${item.price}</li>
+              <li class="cart-item">
+                <span class="cart-name">${item.name}</span>
+                <div class="cart-quantity">
+                  <button class="minus-btn" data-menu-id="${item.menuId}">-</button>
+                  <span class="cart-qty">${item.quantity}</span>
+                  <button class="plus-btn" data-menu-id="${item.menuId}">+</button>
+                </div>
+                <span class="cart-price">${item.price * item.quantity}원</span>
+                <button class="remove-btn" data-menu-id="${item.menuId}">✕</button>
+              </li>
             </c:forEach>
           </ul>
         </div>

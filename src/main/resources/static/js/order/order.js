@@ -20,6 +20,22 @@ $().ready(function () {
     window.location.href = "/order/detail/" + $(this).data("id");
   });
 
+  // 주문 수량 감소
+  $(".minus-btn").on("click", function (){
+    $.post("/order/cart/minus/" + $(this).data("menu-id"), function (response){
+      location.reload();
+    })
+  });
+
+  // 주문 수량 증가
+  $(".plus-btn").on("click", function (){
+    $.post("/order/cart/plus/" + $(this).data("menu-id"), function (response){
+      location.reload();
+    })
+  });
+
+  // 주문 삭제
+
   // 삭제 클릭
   $("#remove").on("click", function () {
     $.get("/payment/remove", function (response) {

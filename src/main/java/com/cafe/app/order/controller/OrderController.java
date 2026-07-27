@@ -183,6 +183,42 @@ public class OrderController {
 		// this.orderService.readSeatSummaryById(orderId);
 		return "order/summary";
 	}
-	
+
+	// 수량 감소
+	@ResponseBody
+	@PostMapping("/order/cart/minus/{menuId}")
+	public String cartItemMinus(@PathVariable String menuId, HttpSession session) {
+		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
+		CartItemVO cartItem = orderList.stream()
+				.filter(item -> item.getMenuId().equals(menuId))
+				.findFirst()
+				.orElse(null);
+		System.out.println("수량 증가 대상 : " + cartItem);
+		if(cartItem != null){
+			if(cartItem.getQuantity() > 1){
+				cartItem.setQuantity(cartItem.getQuantity() - 1);
+				System.out.println("수량 변경 후 : " + cartItem.getQuantity());
+			}
+		}
+		// AJAX 호출하면 redirect 응답을 브라우저가 자동으로 따라가지 않음
+		return "success";
+	}
+
+	// 수량 증가
+	@ResponseBody
+	@PostMapping("/order/cart/plus/{menuId}")
+	public String cartItemPlus(@PathVariable String menuId, HttpSession session) {
+		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
+		CartItemVO cartItem = orderList.stream()
+				.filter(item -> item.getMenuId().equals(menuId))
+				.findFirst()
+				.orElse(null);
+		if(cartItem != null){
+			cartItem.setQuantity(cartItem.getQuantity() + 1);
+		}
+		return "success";
+	}
+
+	// 삭제
 
 }
