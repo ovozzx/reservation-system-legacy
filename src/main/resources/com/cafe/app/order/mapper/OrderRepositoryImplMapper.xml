@@ -46,7 +46,7 @@
 			, IS_USED
 		    , AMOUNT)
 			VALUES
-			( 'test'
+			( #{userId}
 			,'ORDERED'
 			, NOW()
 			, NOW()

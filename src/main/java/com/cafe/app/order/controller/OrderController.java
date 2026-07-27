@@ -107,7 +107,9 @@ public class OrderController {
 	public String doActionSaveOrder(HttpSession session, RedirectAttributes redirectAttributes) {
 		// 세션에서 가지고 있다가 ORDER 테이블에 한번에 넣기
 		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
+		String userId = (String) session.getAttribute("userId");
 		RequestOrderVO requestOrderVO = new RequestOrderVO();
+		requestOrderVO.setUserId(userId);
 
 		requestOrderVO.setMenuVOList(orderList);
 		this.orderService.saveOrder(requestOrderVO);
@@ -120,7 +122,9 @@ public class OrderController {
 	@PostMapping("/order/takeout")
 	public String saveOrderForTakeOut(HttpSession session, RedirectAttributes redirectAttributes){
 		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
+		String userId = (String) session.getAttribute("userId");
 		RequestOrderVO requestOrderVO = new RequestOrderVO();
+		requestOrderVO.setUserId(userId);
 
 		requestOrderVO.setMenuVOList(orderList);
 		this.orderService.saveOrder(requestOrderVO);

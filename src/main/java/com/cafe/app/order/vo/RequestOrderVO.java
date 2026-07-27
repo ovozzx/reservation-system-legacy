@@ -9,6 +9,7 @@ import lombok.Data;
 public class RequestOrderVO {
 
 	private Long orderId;
+    private String userId;
     private String status;
     private int amount;
     private List<CartItemVO> menuVOList;
