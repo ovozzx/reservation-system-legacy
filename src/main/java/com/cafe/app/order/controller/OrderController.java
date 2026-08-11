@@ -1,5 +1,6 @@
 package com.cafe.app.order.controller;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,10 +36,19 @@ public class OrderController {
 	
 	// 음료 주문 화면 
 	@GetMapping("/order")
-	public String viewOrderPage(Model model) {
+	public String viewOrderPage(Model model, HttpSession session) {
 		List<MenuVO> menuList = orderService.getMenuList(1);
  		model.addAttribute("menuList", menuList);
 		System.out.println("출력 : " + menuList);
+		// 남은 시간 확인
+		Long currentTime =  System.currentTimeMillis();
+		Long orderStartTime = (Long) session.getAttribute("orderStartTime");
+		if (orderStartTime == null || currentTime - orderStartTime > 300000){ // ms 단위, 5분 초과
+			// 팝업 출력
+			return "redirect:/";
+		}
+		long remainingSeconds = 300 - (currentTime - orderStartTime) / 1000;
+		model.addAttribute("remainingSeconds", remainingSeconds);
 		return "order/list";
 	}
 	
@@ -53,6 +63,8 @@ public class OrderController {
 	@GetMapping("/order/start")
 	public String checkOrderType(@RequestParam String type, HttpSession session) {
 		session.setAttribute("orderType", type);
+		// 시간 설정
+		session.setAttribute("orderStartTime", System.currentTimeMillis());
 		return "IN".equals(type) ? "redirect:/login" : "redirect:/order";
 	}
 	

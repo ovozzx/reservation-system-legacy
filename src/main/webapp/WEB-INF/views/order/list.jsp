@@ -56,6 +56,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         </div>
         <div class="button-container">
           <div>남은 시간</div>
+          <div>${remainingSeconds}</div>
           <button id="remove">삭제</button>
           <c:if test="${not empty sessionScope.cart}">
             <c:choose>
