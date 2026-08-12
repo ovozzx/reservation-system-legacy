@@ -56,7 +56,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         </div>
         <div class="button-container">
           <div>남은 시간</div>
-          <div>${remainingSeconds}</div>
+          <div id="remainingSeconds" data-seconds="${remainingSeconds}">${remainingSeconds}</div>
           <button id="remove">삭제</button>
           <c:if test="${not empty sessionScope.cart}">
             <c:choose>
@@ -78,4 +78,16 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
     </div>
   </body>
+  <script>
+    var seconds = $("#remainingSeconds").data("seconds");
+    var timer = setInterval(function(){
+      seconds--;
+      $("#remainingSeconds").text(seconds);
+      if(seconds <= 0){
+        clearInterval(timer); // setInterval 반복 실행 멈춤 
+        alert("주문 시간 초과");
+        window.location.href = "/";
+      }
+    }, 1000);
+  </script>
 </html>
