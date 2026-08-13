@@ -59,6 +59,7 @@ public class AuthController {
             request.getSession().invalidate(); // 기존 세션 통째로 무효화, 같은 브라우저는 JSESSIONID를 공유
             HttpSession session = request.getSession(true);  // 새 세션 생성 -> 새 JSESSIONID 발급
             session.setAttribute("userId", requestLoginVO.getUserId()); // 기존 세션이 없으면 새 세션 생성
+            session.setAttribute("orderStartTime", System.currentTimeMillis());
             if(orderType != null){
                 session.setAttribute("orderType", orderType);
             }
