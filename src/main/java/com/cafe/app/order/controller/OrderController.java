@@ -134,9 +134,8 @@ public class OrderController {
 	@PostMapping("/order/takeout")
 	public String saveOrderForTakeOut(HttpSession session, RedirectAttributes redirectAttributes){
 		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
-		String userId = (String) session.getAttribute("userId");
 		RequestOrderVO requestOrderVO = new RequestOrderVO();
-		requestOrderVO.setUserId(userId);
+		requestOrderVO.setUserId("GUEST"); // 포장하기 고정 USER_ID
 
 		requestOrderVO.setMenuVOList(orderList);
 		this.orderService.saveOrder(requestOrderVO);
