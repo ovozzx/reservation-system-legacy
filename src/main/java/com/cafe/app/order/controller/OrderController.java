@@ -116,7 +116,7 @@ public class OrderController {
 
 	// '좌석 예약' 클릭 (장바구니 담기 완료)
 	@PostMapping("/order")
-	public String doActionSaveOrder(HttpSession session, RedirectAttributes redirectAttributes) {
+	public String doActionSaveOrder(HttpSession session, RedirectAttributes redirectAttributes, @RequestParam int remainingSeconds) {
 		// 세션에서 가지고 있다가 ORDER 테이블에 한번에 넣기
 		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
 		String userId = (String) session.getAttribute("userId");
@@ -127,6 +127,7 @@ public class OrderController {
 		this.orderService.saveOrder(requestOrderVO);
 		// redirect 후, 페이지 이동 시 아래 값은 사라진다
 		redirectAttributes.addAttribute("orderId", requestOrderVO.getOrderId()); // URL로 붙어서 감
+		redirectAttributes.addAttribute("remainingSeconds", remainingSeconds); // URL로 붙어서 감
 		return "redirect:/seat"; // redirect => 다시 get 요청
 	}
 

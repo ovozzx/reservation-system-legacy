@@ -83,6 +83,7 @@
 	          <div class="info">
 				<div>남은 좌석 : <span>${availableSeatCnt}</span></div>
 				<div>남은 시간 : <span></span></div>
+			    <div id="remainingSeconds" data-seconds="${remainingSeconds}">${remainingSeconds}</div>
 			  </div>
 	          <div class="button-container">	
 					<button id="reserveSeat" type="submit">좌석 예약</button>				
@@ -92,4 +93,16 @@
     </div>
 	</form>
   </body>
+  <script>
+	  var seconds = $("#remainingSeconds").data("seconds");
+	  var timer = setInterval(function(){
+		  seconds--;
+		  $("#remainingSeconds").text(seconds);
+		  if(seconds <= 0){
+			  clearInterval(timer); // setInterval 반복 실행 멈춤
+			  alert("주문 시간 초과");
+			  window.location.href = "/";
+		  }
+	  }, 1000);
+  </script>
 </html>

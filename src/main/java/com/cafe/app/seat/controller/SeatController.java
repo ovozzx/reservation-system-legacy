@@ -23,7 +23,7 @@ public class SeatController {
 	private SeatService seatService;
 	
 	@GetMapping("/seat")
-	public String viewAllSeats(@RequestParam int orderId, Model model){
+	public String viewAllSeats(@RequestParam int orderId, @RequestParam int remainingSeconds, Model model){
 		
 		List<SeatVO> seatList = this.seatService.readAllSeats();
 		List<SeatVO> leftSeatList = seatList.stream().filter(seat -> seat.getSeatNumber().startsWith("L")).toList();
@@ -36,7 +36,8 @@ public class SeatController {
 		model.addAttribute("windowSeatList", windowSeatList);
 		model.addAttribute("orderId", orderId);
 		model.addAttribute("availableSeatCnt", availableSeatCnt);
-	
+		model.addAttribute("remainingSeconds", remainingSeconds);
+
 		return "seat/list";
 	}
 

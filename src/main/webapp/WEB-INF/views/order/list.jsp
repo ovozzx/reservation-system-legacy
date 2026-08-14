@@ -61,8 +61,10 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
           <c:if test="${not empty sessionScope.cart}">
             <c:choose>
               <c:when test="${sessionScope.orderType == 'IN'}">
-                <form action="/order" method="post">
+                <form action="/order" method="post" onsubmit="this.remainingSeconds.value = seconds;">
                   <!-- 먹고가기 -->
+                  <!-- 제출 시점 seconds 값을 hidden input에 넣어서 제출 -->
+                  <input type="hidden" name="remainingSeconds"/>
                   <button id="seat">좌석예약</button>
                 </form>
               </c:when>
@@ -84,7 +86,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       seconds--;
       $("#remainingSeconds").text(seconds);
       if(seconds <= 0){
-        clearInterval(timer); // setInterval 반복 실행 멈춤 
+        clearInterval(timer); // setInterval 반복 실행 멈춤
         alert("주문 시간 초과");
         window.location.href = "/";
       }
