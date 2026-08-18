@@ -16,81 +16,82 @@
 			alert("${msg}");
 		</script>
 	</c:if>
-	<form id="seatForm" action="/seat" method="post">
-	<div class="modal">
-		<div class="modal-content">	
-				<div>시간 설정</div>
-				<input id="seatId" name="seatId" data-seat-id="" type="hidden">
-				<input id="reserveTime" name="reserveTime" data-time="" type="hidden">
-				<input value="${orderId}" name="orderId" type="hidden">
-				<div class="time" id="one-hour" data-time="1">1 시간</div>
-				<div class="time" id="two-hour" data-time="2">2 시간</div>
-				<div class="time" id="three-hour" data-time="3">3 시간</div>
-				<div class="modal-buttons">
-					<button type="button" class="cancle">취소</button>
-					<button type="button" class="complete" disabled>완료</button>
-				</div>
+	<form id="seatForm" action="/seat" method="post" onsubmit="this.remainingSeconds.value = seconds;">
+		<input type="hidden" name="remainingSeconds"/>
+		<div class="modal">
+			<div class="modal-content">
+					<div>시간 설정</div>
+					<input id="seatId" name="seatId" data-seat-id="" type="hidden">
+					<input id="reserveTime" name="reserveTime" data-time="" type="hidden">
+					<input value="${orderId}" name="orderId" type="hidden">
+					<div class="time" id="one-hour" data-time="1">1 시간</div>
+					<div class="time" id="two-hour" data-time="2">2 시간</div>
+					<div class="time" id="three-hour" data-time="3">3 시간</div>
+					<div class="modal-buttons">
+						<button type="button" class="cancle">취소</button>
+						<button type="button" class="complete" disabled>완료</button>
+					</div>
+			</div>
 		</div>
-    </div> 
-    <div class="wrapper">
-	      <div class="header">
-	      	<h1 id="main-title">좌석 예약</h1>
-	      </div>
-		  <div class="category">
-			<ul> <!-- 카테고리도 DB로 관리 ? -->
-				<li>1F</li>
-				<li>2F</li>
-				<li>3F</li>
-			</ul>
-		  </div>
-	      <div class="content-box">
-			<div class="left-area">
-				<c:forEach var="seat" items="${leftSeatList}">
-					<button class="seat" 
-							type="button"
-					        data-id="${seat.seatId}"
-						    ${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
-						${seat.seatNumber}
-					</button>
-				</c:forEach>
-			</div>
-			<div class="aisle-area">
+		<div class="wrapper">
+			  <div class="header">
+				<h1 id="main-title">좌석 예약</h1>
+			  </div>
+			  <div class="category">
+				<ul> <!-- 카테고리도 DB로 관리 ? -->
+					<li>1F</li>
+					<li>2F</li>
+					<li>3F</li>
+				</ul>
+			  </div>
+			  <div class="content-box">
+				<div class="left-area">
+					<c:forEach var="seat" items="${leftSeatList}">
+						<button class="seat"
+								type="button"
+								data-id="${seat.seatId}"
+								${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
+							${seat.seatNumber}
+						</button>
+					</c:forEach>
+				</div>
+				<div class="aisle-area">
 
-			</div>
-			<div class="right-area">
-				<c:forEach var="seat" items="${rightSeatList}">
-					<button class="seat"
-							type="button"
-					        data-id="${seat.seatId}"
-						    ${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
-						${seat.seatNumber}
-					</button>
-				</c:forEach>
-			</div>
-			<div class="window-area">
-				<c:forEach var="seat" items="${windowSeatList}">
-					<button class="seat"
-							type="button"
-					        data-id="${seat.seatId}"
-						    ${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
-						${seat.seatNumber}
-					</button>
-				</c:forEach>
-			</div>
-		
-	      </div>
-          <div class="bottom">
-	          <div class="info">
-				<div>남은 좌석 : <span>${availableSeatCnt}</span></div>
-				<div>남은 시간 : <span></span></div>
-			    <div id="remainingSeconds" data-seconds="${remainingSeconds}">${remainingSeconds}</div>
+				</div>
+				<div class="right-area">
+					<c:forEach var="seat" items="${rightSeatList}">
+						<button class="seat"
+								type="button"
+								data-id="${seat.seatId}"
+								${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
+							${seat.seatNumber}
+						</button>
+					</c:forEach>
+				</div>
+				<div class="window-area">
+					<c:forEach var="seat" items="${windowSeatList}">
+						<button class="seat"
+								type="button"
+								data-id="${seat.seatId}"
+								${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
+							${seat.seatNumber}
+						</button>
+					</c:forEach>
+				</div>
+
 			  </div>
-	          <div class="button-container">	
-					<button id="reserveSeat" type="submit">좌석 예약</button>				
-			  </div>
-        </div>
-	
-    </div>
+			  <div class="bottom">
+				  <div class="info">
+					<div>남은 좌석 : <span>${availableSeatCnt}</span></div>
+					<div>남은 시간 : <span></span></div>
+					<div id="remainingSeconds" data-seconds="${remainingSeconds}">${remainingSeconds}</div>
+				  </div>
+				  <div class="button-container">
+						<button id="reserveSeat" type="submit">좌석 예약</button>
+				  </div>
+			</div>
+
+		</div>
 	</form>
   </body>
   <script>

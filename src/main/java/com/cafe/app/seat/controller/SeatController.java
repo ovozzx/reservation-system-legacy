@@ -15,6 +15,7 @@ import com.cafe.app.seat.vo.RequestTempVO;
 import com.cafe.app.seat.vo.SeatVO;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SeatController {
@@ -43,16 +44,18 @@ public class SeatController {
 
 	// 좌석 시간 설정  팝업 완료 클릭 시 : 좌석 예약 임시 테이블 저장 
 	@PostMapping("/seat")
-	public String reserveSeat(RequestTempVO requestTempVO, HttpSession session, Model model){ // 전달 정보 : 좌석 id, 시간
+	public String reserveSeat(RequestTempVO requestTempVO, @RequestParam int remainingSeconds, HttpSession session, Model model, RedirectAttributes redirectAttributes){ // 전달 정보 : 좌석 id, 시간
 
-		boolean complete = this.seatService.saveTempSeat(requestTempVO);
-
-		if(complete){
+		try{
+			this.seatService.saveTempSeat(requestTempVO);
 			return "redirect:/order/summary/" + requestTempVO.getOrderId();
-		}else{
-			model.addAttribute("msg", "음료 수만큼 좌석을 선택해 주세요");
-			return "seat/list";
+		}catch(IllegalArgumentException e){
+			redirectAttributes.addFlashAttribute("msg", e.getMessage()); // addAttribute → URL 쿼리스트링에 붙음, addFlashAttribute → URL에 안 보이고, 세션에 잠깐 저장됐다가 다음 요청에서 한 번 쓰고 사라짐
+			redirectAttributes.addAttribute("orderId", requestTempVO.getOrderId());
+			redirectAttributes.addAttribute("remainingSeconds", remainingSeconds);
+			return "redirect:/seat";
 		}
+
 	}
 
 
