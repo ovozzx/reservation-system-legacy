@@ -35,7 +35,7 @@ public class SeatServiceImpl implements SeatService{
 		int itemCnt = this.orderRepository.readItemCountById(requestTempVO);
 
 		if(requestTempVO.getSeatIdList() == null){
-			return false;
+			throw new IllegalArgumentException("음료 수만큼 좌석을 선택해 주세요.");
 		}
 
 		if(itemCnt != requestTempVO.getSeatIdList().size()){
