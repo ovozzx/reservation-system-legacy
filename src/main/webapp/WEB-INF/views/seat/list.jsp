@@ -22,6 +22,7 @@
 			<div class="modal-content">
 					<div>시간 설정</div>
 					<input id="seatId" name="seatId" data-seat-id="" type="hidden">
+					<input id="seatName" name="seatName" data-seat-name="" type="hidden">
 					<input id="reserveTime" name="reserveTime" data-time="" type="hidden">
 					<input value="${orderId}" name="orderId" type="hidden">
 					<div class="time" id="one-hour" data-time="1">1 시간</div>
@@ -50,6 +51,7 @@
 						<button class="seat"
 								type="button"
 								data-id="${seat.seatId}"
+								data-name="${seat.seatNumber}"
 								${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
 							${seat.seatNumber}
 						</button>
@@ -63,6 +65,7 @@
 						<button class="seat"
 								type="button"
 								data-id="${seat.seatId}"
+								data-name="${seat.seatNumber}"
 								${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
 							${seat.seatNumber}
 						</button>
@@ -73,6 +76,7 @@
 						<button class="seat"
 								type="button"
 								data-id="${seat.seatId}"
+								data-name="${seat.seatNumber}"
 								${seat.status ne 'AVAILABLE' ? 'disabled' : ''}>
 							${seat.seatNumber}
 						</button>

@@ -23,6 +23,7 @@ $().ready(function () {
   // 좌석 클릭
   $("button.seat").on("click", function () {
     $("#seatId").val($(this).data("id"));
+    $("#seatName").val($(this).data("name"));
     $(".modal").show();
   });
   // 취소 클릭
@@ -39,16 +40,18 @@ $().ready(function () {
   });
   // 완료 클릭 => input hidden으로 추가
   $(".complete").on("click", function () {
-    seatIdList.push($("#seatId").val());
+    var seatId = $("#seatId").val();
+    seatIdList.push(seatId);
     console.log(seatIdList);
     $("<div>")
       .addClass("seat-row")
       .append(
         $("<label>").text("선택 좌석: "),
+        $("<span>").addClass("seat-name").text($("#seatName").val()),
         $("<input>")
-          .attr("type", "text")
+          .attr("type", "hidden")
           .attr("name", "seatIdList")
-          .val(seatIdList[seatIdList.length - 1])
+          .val(seatId)
           .prop("readonly", true),
         $("<button>").attr("type", "button").addClass("remove-seat").text("X")
       )
