@@ -95,6 +95,12 @@ CREATE TABLE `reservation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
+-- 초기 데이터: 사용자 (포장 주문용 GUEST 계정)
+-- =============================================
+
+INSERT INTO users (user_id, password, salt, role) VALUES ('GUEST', 'GUEST', 'GUEST', 'USER');
+
+-- =============================================
 -- 초기 데이터: 메뉴
 -- =============================================
 
