@@ -32,4 +32,12 @@
 	  FROM users
 	 WHERE USER_ID = #{userId}
 	</select>
+	<select id="selectCountById"
+			parameterType="string"
+			resultType="int">
+		SELECT COUNT(*)
+		FROM users
+		WHERE USER_ID = #{userId}
+	</select>
+
  </mapper>

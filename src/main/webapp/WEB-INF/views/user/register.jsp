@@ -1,4 +1,5 @@
  <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -9,6 +10,11 @@
     <script type="text/javascript" src="/js/order/order.js"></script>
   </head>
   <body>
+    <c:if test="${not empty msg}">
+      <script>
+        alert("${msg}");
+      </script>
+    </c:if>
     <div class="wrapper">
       <div class="login-container">
         <h2>회원가입</h2>

@@ -31,4 +31,8 @@ public class AuthRepositoryImpl extends SqlSessionDaoSupport implements AuthRepo
         return super.getSqlSession().selectOne(this.NAME_SPACE + "readSaltAndPwById", requestLoginVO); 
     }
     
+    @Override
+    public int selectCountById(String userId) {
+        return super.getSqlSession().selectOne(this.NAME_SPACE + "selectCountById", userId);
+    }
 }

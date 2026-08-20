@@ -30,14 +30,20 @@ public class AuthController {
 
     @PostMapping("/register")
     public String actionRegister(RequestRegisterVO requestRegisterVO, RedirectAttributes redirectAttributes) {
-        int successCnt = this.authService.register(requestRegisterVO);
-        // 회원가입 완료 팝업 -> 로그인 화면 이동
-        if(successCnt > 0){
-            redirectAttributes.addFlashAttribute("registerMsg", "회원가입이 완료되었습니다.");
-        }else{
-            redirectAttributes.addFlashAttribute("registerMsg", "회원가입 실패하였습니다.");
+
+        try {
+            int successCnt = this.authService.register(requestRegisterVO);
+            // 회원가입 완료 팝업 -> 로그인 화면 이동
+            if (successCnt > 0) {
+                redirectAttributes.addFlashAttribute("registerMsg", "회원가입이 완료되었습니다.");
+            } else {
+                redirectAttributes.addFlashAttribute("registerMsg", "회원가입 실패하였습니다.");
+            }
+            return "redirect:/login";
+        } catch (IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("msg", e.getMessage());
+            return "redirect:/register";
         }
-        return "redirect:/login";
     }
 
     // 로그인

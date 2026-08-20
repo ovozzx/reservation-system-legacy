@@ -10,4 +10,5 @@ public interface AuthRepository {
 
     VerifyLoginVO readSaltAndPwById(RequestLoginVO requestLoginVO);
 
+    int selectCountById(String userId);
 }

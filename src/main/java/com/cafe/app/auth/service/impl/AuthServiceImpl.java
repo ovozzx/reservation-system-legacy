@@ -38,6 +38,13 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public int register(RequestRegisterVO requestRegisterVO) {
+        // ID 중복 체크
+        int duplicatedCount = this.authRepository.selectCountById(requestRegisterVO.getUserId());
+
+        if(duplicatedCount > 0){
+            throw new IllegalArgumentException("중복된 아이디가 존재합니다.");
+        }
+
         // salt 발급 
         String saltBaseStr = PasswordUtil.generateSalt();
         // salt로 비밀번호 해시
