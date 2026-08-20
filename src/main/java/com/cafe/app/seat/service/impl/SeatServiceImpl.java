@@ -81,4 +81,24 @@ public class SeatServiceImpl implements SeatService{
 		}
 	}
 
+	@Override
+	@Transactional
+	public void checkTempSeat() {
+		// reservation > status > TEMP만 추출 >> 좌석 리스트 추출
+		List<String> seatIdList = this.seatRepository.selectTempSeats();
+
+		for(String seatId : seatIdList){
+			// 예약 만료 처리
+			this.seatRepository.updateReservationStatus(seatId);
+			// 좌석 만료 처리 (비활성화 해제_
+			Map<String, String> param = new HashMap<>();
+			param.put("seatId", seatId);
+			param.put("status", "AVAILABLE");
+			this.seatRepository.updateSeatStatus(param);
+		}
+
+
+	}
+
+
 }

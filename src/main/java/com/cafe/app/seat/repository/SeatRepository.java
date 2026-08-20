@@ -21,4 +21,6 @@ public interface SeatRepository {
     int updateReservationStatus(String seatId);
 
     int updateSeatStatusToReserved(String seatId);
+
+    List<String> selectTempSeats();
 }

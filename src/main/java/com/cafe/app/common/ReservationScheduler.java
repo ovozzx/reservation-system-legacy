@@ -15,4 +15,10 @@ public class ReservationScheduler {
     public void expireSeats(){
         this.seatService.checkSeatStatus();
     }
+
+    // TEMP 예약 좌석 비활성화 해제
+    @Scheduled(cron = "0 * * * * *") // 1분마다
+    public void expireTempSeats(){
+        this.seatService.checkTempSeat();
+    }
 }
