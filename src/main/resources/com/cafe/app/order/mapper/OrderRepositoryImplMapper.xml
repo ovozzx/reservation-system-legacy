@@ -108,4 +108,17 @@
 		  FROM orders
 		 WHERE ORDER_ID = #{orderId}
 	</select>
+	<select id="selectSeatListById"
+			parameterType="string"
+			resultType="string">
+		SELECT SEAT_ID
+		  FROM reservation
+		WHERE ORDER_ID = #{orderId}
+	</select>
+	<update id="updateReservationStatus"
+			parameterType="string">
+		UPDATE reservation
+		SET STATUS = 'CONFIRMED'
+		WHERE ORDER_ID = #{orderId}
+	</update>
  </mapper>

@@ -19,4 +19,6 @@ public interface SeatRepository {
     List<String> selectExpiredSeats();
 
     int updateReservationStatus(String seatId);
+
+    int updateSeatStatusToReserved(String seatId);
 }

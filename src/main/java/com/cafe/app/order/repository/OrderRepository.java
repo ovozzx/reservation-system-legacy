@@ -26,4 +26,8 @@ public interface OrderRepository {
 	List<SeatSummaryVO> readSeatSummaryById(String orderId);
 
 	int selectAmountById(String orderId);
+
+	List<String> selectSeatListById(String orderId);
+
+	int updateReservationStatus(String orderId);
 }

@@ -71,5 +71,11 @@
 		 WHERE SEAT_ID = #{seatId}
 		   AND NOW() > END_TIME
 	</update>
+	<update id="updateSeatStatusToReserved"
+			parameterType="string">
+		UPDATE seat
+		SET STATUS = 'RESERVED'
+		WHERE SEAT_ID = #{seatId}
+	</update>
 
  </mapper>

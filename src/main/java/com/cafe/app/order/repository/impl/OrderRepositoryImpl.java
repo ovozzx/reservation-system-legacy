@@ -64,4 +64,16 @@ public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRe
 		return super.getSqlSession().selectOne(this.NAME_SPACE + "selectAmountById", orderId);
 	}
 
+
+	@Override
+	public List<String> selectSeatListById(String orderId) {
+		return super.getSqlSession().selectList(this.NAME_SPACE + "selectSeatListById", orderId);
+	}
+
+	@Override
+	public int updateReservationStatus(String orderId) {
+		return super.getSqlSession().update(this.NAME_SPACE + "updateReservationStatus", orderId);
+	}
+
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cafe.app.order.vo.*;
+import com.cafe.app.seat.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class OrderServiceImpl implements OrderService{
 
 	@Autowired
 	private OrderRepository orderRepository;
+
+	@Autowired
+	private SeatRepository seatRepository;
 	
 	@Override
 	public List<MenuVO>getMenuList (int category) {
@@ -148,6 +152,15 @@ public class OrderServiceImpl implements OrderService{
 
 		if(paidAmount == orderAmount){
 			paymentResponse.setStatus("success");
+			// 좌석 상태값 변경 IN_PROGRESS → RESERVED
+			// 좌석 리스트 받아서 반복문
+			List<String> seatList = this.orderRepository.selectSeatListById(paymentValidVO.getOrderId());
+			for(String seadId : seatList){
+				this.seatRepository.updateSeatStatusToReserved(seadId);
+			}
+			// 예약 상태값 변경 TEMP → CONFIRMED
+			this.orderRepository.updateReservationStatus(paymentValidVO.getOrderId());
+
 		}else{
 			paymentResponse.setStatus("fail");
 		}
