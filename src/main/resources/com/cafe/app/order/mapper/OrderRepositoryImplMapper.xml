@@ -75,7 +75,7 @@
 	<select id="readItemCountById"
 	        parameterType="com.cafe.app.seat.vo.RequestTempVO"
 			resultType="int">	
-		SELECT COUNT(*)
+		SELECT SUM(QUANTITY)
 		  FROM order_item
 		 WHERE ORDER_ID = #{orderId}
 	</select>
