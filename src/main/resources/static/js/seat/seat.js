@@ -43,6 +43,8 @@ $().ready(function () {
     var seatId = $("#seatId").val();
     seatIdList.push(seatId);
     console.log(seatIdList);
+    // 완료 좌석 비활성화 처리
+    $("button.seat[data-id='" + seatId + "']").prop("disabled", true);
     $("<div>")
       .addClass("seat-row")
       .append(
@@ -63,7 +65,8 @@ $().ready(function () {
   $("#seatForm").on("click", ".remove-seat", function () {
     var row = $(this).closest(".seat-row");
     var seatId = row.find("input").val();
-
+    // 삭제 시 비활성화 해제
+    $("button.seat[data-id='" + seatId + "']").prop("disabled", false);
     // 배열에서도 제거
     seatIdList = seatIdList.filter((id) => id !== seatId);
 
