@@ -20,6 +20,7 @@ $().ready(function () {
    * 모달
    */
   var seatIdList = [];
+  var reserveTimeList = [];
   // 좌석 클릭
   $("button.seat").on("click", function () {
     $("#seatId").val($(this).data("id"));
@@ -41,7 +42,9 @@ $().ready(function () {
   // 완료 클릭 => input hidden으로 추가
   $(".complete").on("click", function () {
     var seatId = $("#seatId").val();
+    var reserveTime = $("#reserveTime").val();
     seatIdList.push(seatId);
+    reserveTimeList.push(reserveTime);
     console.log(seatIdList);
     // 완료 좌석 비활성화 처리
     $("button.seat[data-id='" + seatId + "']").prop("disabled", true);
@@ -50,11 +53,17 @@ $().ready(function () {
       .append(
         $("<label>").text("선택 좌석: "),
         $("<span>").addClass("seat-name").text($("#seatName").val()),
+        //  완료 클릭할 때마다 hidden input이 form 안에 추가되고, form 제출 시 서버로 전송
         $("<input>")
           .attr("type", "hidden")
           .attr("name", "seatIdList")
           .val(seatId)
           .prop("readonly", true),
+          $("<input>")
+              .attr("type", "hidden")
+              .attr("name", "reserveTimeList")
+              .val(reserveTime)
+              .prop("readonly", true),
         $("<button>").attr("type", "button").addClass("remove-seat").text("X")
       )
       .appendTo("#seatForm");
@@ -64,12 +73,12 @@ $().ready(function () {
   // 선택 좌석 삭제
   $("#seatForm").on("click", ".remove-seat", function () {
     var row = $(this).closest(".seat-row");
-    var seatId = row.find("input").val();
+    var seatId = row.find("input[name='seatIdList']").val();
     // 삭제 시 비활성화 해제
     $("button.seat[data-id='" + seatId + "']").prop("disabled", false);
     // 배열에서도 제거
+    reserveTimeList = reserveTimeList.filter((time, index) => seatIdList[index] != seatId); // 대상을 알아낼 필요 없으므로 전역 변수 사용
     seatIdList = seatIdList.filter((id) => id !== seatId);
-
     // 화면에서도 제거
     row.remove();
   });

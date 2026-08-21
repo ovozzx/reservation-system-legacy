@@ -46,8 +46,12 @@ public class SeatServiceImpl implements SeatService{
 	 	// TODO : 예약 시간 다르게 가능..?
 		int totalResult = 0;
 
-		for(String seatId : requestTempVO.getSeatIdList()){
+		for(int i = 0 ; i < requestTempVO.getSeatIdList().size() ; i++){
+
+			String seatId = requestTempVO.getSeatIdList().get(i);
+			Integer reserveTime = requestTempVO.getReserveTimeList().get(i);
 			requestTempVO.setSeatId(seatId);
+			requestTempVO.setReserveTime(reserveTime);
 			// 좌석 상태 확인
 			SeatVO seat = this.seatRepository.selectSeatForUpdate(seatId);
 			if(!"AVAILABLE".equals(seat.getStatus())){
@@ -60,6 +64,8 @@ public class SeatServiceImpl implements SeatService{
 			this.seatRepository.updateSeatStatus(param);
 			totalResult += result;
 		}
+
+
 
 		return totalResult == itemCnt;
 	}
