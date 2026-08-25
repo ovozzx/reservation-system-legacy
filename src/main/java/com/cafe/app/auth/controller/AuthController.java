@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -14,6 +15,7 @@ import com.cafe.app.user.vo.RequestRegisterVO;
 
 import jakarta.servlet.http.HttpSession;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Controller
@@ -29,7 +31,17 @@ public class AuthController {
     }   
 
     @PostMapping("/register")
-    public String actionRegister(RequestRegisterVO requestRegisterVO, RedirectAttributes redirectAttributes) {
+    public String actionRegister(@Valid RequestRegisterVO requestRegisterVO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("msg", "필수 항목을 입력해주세요.");
+            return "redirect:/register";
+        }
+
+        if(!requestRegisterVO.getPassword().equals(requestRegisterVO.getConfirmPassword())){ // 비밀번호 일치 확인
+            redirectAttributes.addFlashAttribute("msg", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/register";
+        }
 
         try {
             int successCnt = this.authService.register(requestRegisterVO);

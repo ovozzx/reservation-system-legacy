@@ -7,7 +7,7 @@
     <title>회원가입 화면</title>
     <link type="text/css" rel="stylesheet" href="/css/login.css" />
     <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="/js/order/order.js"></script>
+    <script type="text/javascript" src="/js/register/register.js"></script>
   </head>
   <body>
     <c:if test="${not empty msg}">
@@ -31,6 +31,7 @@
             <label for="confirmPassword">비밀번호 확인:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required />
           </div>
+          <span id="passwordMsg" style="color: red; font-size: 12px;"></span>
           <div class="form-group">
             <label for="email">이메일:</label>
             <input type="email" id="email" name="email" required />

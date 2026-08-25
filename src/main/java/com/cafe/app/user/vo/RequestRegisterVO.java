@@ -1,42 +1,21 @@
 package com.cafe.app.user.vo;
 
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+
+@Data
 public class RequestRegisterVO {
 
+    @NotBlank
     private String userId;
+    @NotBlank
     private String password;
+    @NotBlank
+    private String confirmPassword;
+    @NotBlank
     private String email;
+    @NotBlank
     private String salt;
-    
-    public String getUserId() {
-        return userId;
-    }
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getSalt() {
-        return salt;
-    }
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-    @Override
-    public String toString() {
-        return "RequestRegisterVO [userId=" + userId + ", password=" + password + ", email=" + email + ", salt=" + salt
-                + "]";
-    }   
-    
-    
 
 }
