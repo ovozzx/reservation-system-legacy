@@ -8,7 +8,7 @@ import java.util.List;
 public class RequestTempVO {
 
     private String reservationId;
-    private int orderId;
+    private String orderId;
     private String seatId;
     private List<String> seatIdList;
     private String reserveDate;

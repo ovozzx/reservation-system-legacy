@@ -125,6 +125,7 @@ public class OrderController {
 
 		requestOrderVO.setMenuVOList(orderList);
 		this.orderService.saveOrder(requestOrderVO);
+		session.setAttribute("orderId", requestOrderVO.getOrderId());
 		// redirect 후, 페이지 이동 시 아래 값은 사라진다
 		redirectAttributes.addAttribute("orderId", requestOrderVO.getOrderId()); // URL로 붙어서 감
 		redirectAttributes.addAttribute("remainingSeconds", remainingSeconds); // URL로 붙어서 감
@@ -149,6 +150,10 @@ public class OrderController {
 	@GetMapping("/payment/{orderId}")
 	public PaymentResponse doClickPayment(@PathVariable String orderId,HttpSession session) {
 
+		String sessionOrderId = (String) session.getAttribute("orderId");
+		if(!orderId.equals(sessionOrderId)){
+			throw new IllegalArgumentException("잘못된 접근");
+		}
 		PaymentResponse paymentResponse = new PaymentResponse();
 		int totalPrice = this.orderService.readAmountById(orderId);
 		paymentResponse.setOrderId(orderId);
@@ -166,6 +171,10 @@ public class OrderController {
 	// 결제 성공
 	@GetMapping("/payment/success/{orderId}")
 	public String viewPaymentSuccess(@PathVariable String orderId, HttpSession session, Model model) {
+		String sessionOrderId = (String) session.getAttribute("orderId");
+		if(!orderId.equals(sessionOrderId)){
+			throw new IllegalArgumentException("잘못된 접근");
+		}
 		model.addAttribute("orderId", orderId);
 		return "payment/success";
 	}
@@ -188,6 +197,10 @@ public class OrderController {
 
 	@GetMapping("/order/summary/{orderId}")
 	public String readOrderSummary(@PathVariable String orderId, Model model, HttpSession session) {
+		String sessionOrderId = (String) session.getAttribute("orderId");
+		if(!orderId.equals(sessionOrderId)){
+			throw new IllegalArgumentException("잘못된 접근");
+		}
 		// 음료 조회
 		List<ItemSummaryVO> itemList = this.orderService.readItemSummaryById(orderId);
 		List<SeatSummaryVO> seatList = this.orderService.readSeatSummaryById(orderId);

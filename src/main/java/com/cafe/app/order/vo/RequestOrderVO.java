@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class RequestOrderVO {
 
-	private Long orderId;
+	private String orderId;
     private String userId;
     private String status;
     private int amount;
