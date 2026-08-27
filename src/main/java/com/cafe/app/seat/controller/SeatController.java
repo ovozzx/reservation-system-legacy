@@ -24,11 +24,20 @@ public class SeatController {
 	private SeatService seatService;
 	
 	@GetMapping("/seat")
-	public String viewAllSeats(@RequestParam String orderId, @RequestParam int remainingSeconds, Model model, HttpSession session){
+	public String viewAllSeats(@RequestParam String orderId, Model model, HttpSession session){
 		String sessionOrderId = (String) session.getAttribute("orderId");
 		if(!orderId.equals(sessionOrderId)){
 			throw new IllegalArgumentException("잘못된 접근");
 		}
+
+		// 시간 서버측 검증
+		long orderStartTime = (long) session.getAttribute("orderStartTime");
+		long remainingSeconds = 300  - (System.currentTimeMillis() - orderStartTime) / 1000;
+
+		if(remainingSeconds < 0){
+			return "redirect:/";
+		}
+
 		List<SeatVO> seatList = this.seatService.readAllSeats();
 		List<SeatVO> leftSeatList = seatList.stream().filter(seat -> seat.getSeatNumber().startsWith("L")).toList();
 		List<SeatVO> rightSeatList = seatList.stream().filter(seat -> seat.getSeatNumber().startsWith("R")).toList();
@@ -47,18 +56,26 @@ public class SeatController {
 
 	// 좌석 시간 설정  팝업 완료 클릭 시 : 좌석 예약 임시 테이블 저장 
 	@PostMapping("/seat")
-	public String reserveSeat(RequestTempVO requestTempVO, @RequestParam int remainingSeconds, HttpSession session, Model model, RedirectAttributes redirectAttributes){ // 전달 정보 : 좌석 id, 시간
+	public String reserveSeat(RequestTempVO requestTempVO, HttpSession session, Model model, RedirectAttributes redirectAttributes){ // 전달 정보 : 좌석 id, 시간
 		String sessionOrderId = (String) session.getAttribute("orderId");
 		if(!requestTempVO.getOrderId().equals(sessionOrderId)){
 			throw new IllegalArgumentException("잘못된 접근");
 		}
+
+		// 시간 서버측 검증
+		long orderStartTime = (long) session.getAttribute("orderStartTime");
+		long remainingSeconds = 300  - (System.currentTimeMillis() - orderStartTime) / 1000;
+
+		if(remainingSeconds < 0){
+			return "redirect:/";
+		}
+
 		try{
 			this.seatService.saveTempSeat(requestTempVO);
 			return "redirect:/order/summary/" + requestTempVO.getOrderId();
 		}catch(IllegalArgumentException e){
 			redirectAttributes.addFlashAttribute("msg", e.getMessage()); // addAttribute → URL 쿼리스트링에 붙음, addFlashAttribute → URL에 안 보이고, 세션에 잠깐 저장됐다가 다음 요청에서 한 번 쓰고 사라짐
 			redirectAttributes.addAttribute("orderId", requestTempVO.getOrderId());
-			redirectAttributes.addAttribute("remainingSeconds", remainingSeconds);
 			return "redirect:/seat";
 		}
 

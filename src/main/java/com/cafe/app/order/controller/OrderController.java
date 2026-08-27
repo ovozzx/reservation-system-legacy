@@ -116,10 +116,19 @@ public class OrderController {
 
 	// '좌석 예약' 클릭 (장바구니 담기 완료)
 	@PostMapping("/order")
-	public String doActionSaveOrder(HttpSession session, RedirectAttributes redirectAttributes, @RequestParam int remainingSeconds) {
+	public String doActionSaveOrder(HttpSession session, RedirectAttributes redirectAttributes) {
 		// 세션에서 가지고 있다가 ORDER 테이블에 한번에 넣기
 		List<CartItemVO> orderList = (List<CartItemVO>) session.getAttribute("cart");
 		String userId = (String) session.getAttribute("userId");
+
+		// 시간 서버측 검증
+		long orderStartTime = (long) session.getAttribute("orderStartTime");
+		long remainingSeconds = 300 - (System.currentTimeMillis() - orderStartTime) / 1000;
+
+		if(remainingSeconds < 0){
+			return "redirect:/";
+		}
+
 		RequestOrderVO requestOrderVO = new RequestOrderVO();
 		requestOrderVO.setUserId(userId);
 
@@ -128,7 +137,6 @@ public class OrderController {
 		session.setAttribute("orderId", requestOrderVO.getOrderId());
 		// redirect 후, 페이지 이동 시 아래 값은 사라진다
 		redirectAttributes.addAttribute("orderId", requestOrderVO.getOrderId()); // URL로 붙어서 감
-		redirectAttributes.addAttribute("remainingSeconds", remainingSeconds); // URL로 붙어서 감
 		return "redirect:/seat"; // redirect => 다시 get 요청
 	}
 
