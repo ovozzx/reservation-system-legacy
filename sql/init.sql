@@ -80,6 +80,25 @@ CREATE TABLE `seat` (
   UNIQUE KEY `uk_seat_number` (`seat_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE `payment` (
+  `payment_id` bigint NOT NULL AUTO_INCREMENT,
+  `order_id` bigint NOT NULL,
+  `imp_uid` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `merchant_uid` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` int NOT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'READY',
+  `pay_method` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_used` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Y',
+  PRIMARY KEY (`payment_id`),
+  UNIQUE KEY `uk_payment_merchant_uid` (`merchant_uid`),
+  UNIQUE KEY `uk_payment_imp_uid` (`imp_uid`),
+  KEY `fk_payment_order` (`order_id`),
+  CONSTRAINT `fk_payment_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  CONSTRAINT `ck_payment_status` CHECK (`status` IN ('READY','PAID','FAILED','CANCELLED'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE `reservation` (
   `reservation_id` bigint NOT NULL AUTO_INCREMENT,
   `order_id` bigint NOT NULL,
