@@ -17,6 +17,8 @@ public interface OrderRepository {
 
 	int insertOrder(RequestOrderVO requestOrderVO);
 
+	int insertPayment(RequestOrderVO requestOrderVO);
+
 	int insertOrderItem(Map<String, Object> map);
 
 	int readItemCountById(RequestTempVO requestTempVO);
@@ -30,4 +32,8 @@ public interface OrderRepository {
 	List<String> selectSeatListById(String orderId);
 
 	int updateReservationStatus(String orderId);
+
+	int updateFailedPaymentById(String orderId);
+
+	int updatePaidPaymentById(String orderId);
 }

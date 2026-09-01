@@ -120,7 +120,8 @@ public class OrderServiceImpl implements OrderService{
 			cnt += this.orderRepository.insertOrderItem(map);
 		}
 		requestOrderVO.setStatus(cnt + "");
-		// TODO 결제 이력 INSERT
+		// 결제 이력 INSERT
+		this.orderRepository.insertPayment(requestOrderVO);
 		return requestOrderVO;
 	}
 
@@ -145,13 +146,13 @@ public class OrderServiceImpl implements OrderService{
 		// db 가격 조회
 		int orderAmount = this.orderRepository.selectAmountById(paymentValidVO.getOrderId());
 		// pg 가격 조회
-		// TODO 결제이력 status를 FAILED로 업데이트
 		// GET /payments/{imp_uid}로 조회 시, 404 Not Found 오류 발생 -> 해당 로직 비활성화 처리
 		// int paidAmount = getPaidAmount(paymentValidVO.getImpUid());
 		int paidAmount = orderAmount;
 
 		if(paidAmount == orderAmount){
 			// TODO 결제이력 status를 PAID로 업데이트
+			this.orderRepository.updatePaidPaymentById(paymentValidVO.getOrderId());
 			paymentResponse.setStatus("success");
 			// 좌석 상태값 변경 IN_PROGRESS → RESERVED
 			// 좌석 리스트 받아서 반복문
@@ -163,6 +164,8 @@ public class OrderServiceImpl implements OrderService{
 			this.orderRepository.updateReservationStatus(paymentValidVO.getOrderId());
 
 		}else{
+			// TODO 결제이력 status를 FAILED로 업데이트
+			this.orderRepository.updateFailedPaymentById(paymentValidVO.getOrderId());
 			paymentResponse.setStatus("fail");
 		}
 		return paymentResponse;

@@ -38,6 +38,10 @@ public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRe
 		return super.getSqlSession().insert(this.NAME_SPACE + "insertOrder", requestOrderVO);
 	}
 
+	@Override
+	public int insertPayment(RequestOrderVO requestOrderVO) {
+		return super.getSqlSession().insert(this.NAME_SPACE + "insertPayment", requestOrderVO);
+	}
 
 	@Override
 	public int insertOrderItem(Map<String, Object> map) {
@@ -75,5 +79,14 @@ public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRe
 		return super.getSqlSession().update(this.NAME_SPACE + "updateReservationStatus", orderId);
 	}
 
+	@Override
+	public int updateFailedPaymentById(String orderId) {
+		return super.getSqlSession().update(this.NAME_SPACE + "updateFailedPaymentById", orderId);
+	}
+
+	@Override
+	public int updatePaidPaymentById(String orderId) {
+		return super.getSqlSession().update(this.NAME_SPACE + "updatePaidPaymentById", orderId);
+	}
 
 }
