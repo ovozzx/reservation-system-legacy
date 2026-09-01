@@ -11,7 +11,8 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <script type="text/javascript" src="/js/order/order.js"></script>
   </head>
   <body>
-    <div class="wrapper">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <div class="wrapper">
       <div class="header">
         <h1 id="main-title">음료 주문</h1>
         <p id="login-id">${sessionScope.userId}</p>

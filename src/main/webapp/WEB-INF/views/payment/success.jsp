@@ -7,7 +7,8 @@
     <link type="text/css" rel="stylesheet" href="/css/result.css" />
   </head>
   <body>
-    <div class="wrapper">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <div class="wrapper">
       <div class="header success">
         <h1>주문 완료</h1>
       </div>

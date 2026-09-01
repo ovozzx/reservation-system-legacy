@@ -50,7 +50,7 @@
 </head>
 
 <body>
-
+<%@ include file="/WEB-INF/views/common/header.jsp"%> 
 <div class="box">
 
     <!-- 상태코드 -->

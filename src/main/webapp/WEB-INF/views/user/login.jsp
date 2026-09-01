@@ -10,7 +10,8 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <script type="text/javascript" src="/js/order/order.js"></script>
   </head>
   <body>
-    <c:if test="${not empty registerMsg}">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <c:if test="${not empty registerMsg}">
       <script>
         alert("${registerMsg}");
       </script>

@@ -7,7 +7,8 @@
     <link type="text/css" rel="stylesheet" href="/css/result.css" />
   </head>
   <body>
-    <div class="wrapper">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <div class="wrapper">
       <div class="header fail">
         <h1>결제 실패</h1>
       </div>

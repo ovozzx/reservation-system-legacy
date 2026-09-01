@@ -1,0 +1,19 @@
+.common-header {
+    background-color: #3a2f2a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.common-header a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.common-header a:hover {
+    text-decoration: underline;
+}

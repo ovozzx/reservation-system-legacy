@@ -12,7 +12,8 @@
     <script type='text/javascript' src='/js/payment/payment.js'></script>
   </head>
   <body>
-    <div class="wrapper">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <div class="wrapper">
       <div class="grid-container">
 	      <div class="left-blank-div"></div>
 	      <div>

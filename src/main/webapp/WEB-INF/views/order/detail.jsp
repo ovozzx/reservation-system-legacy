@@ -10,7 +10,8 @@
     <script type='text/javascript' src='/js/order/order.js'></script>
   </head>
   <body>
-    <div class="wrapper">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <div class="wrapper">
 	      <div class="header">
 	      	<h1>음료 상세보기</h1>
 	      </div>

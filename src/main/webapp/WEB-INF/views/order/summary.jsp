@@ -15,7 +15,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     <script type="text/javascript" src="/js/order/order.js"></script>
   </head>
   <body>
-    <div class="wrapper">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <div class="wrapper">
       <div class="header">
         <h1>주문 내용</h1>
         <p class="user-id">${sessionScope.userId}</p>

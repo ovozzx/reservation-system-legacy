@@ -11,7 +11,8 @@
     <script type='text/javascript' src='/js/seat/seat.js'></script>
   </head>
   <body>
-	<c:if test="${not empty msg}">
+  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+  <c:if test="${not empty msg}">
 		<script>
 			alert("${msg}");
 		</script>
