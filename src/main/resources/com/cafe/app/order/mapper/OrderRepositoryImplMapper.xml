@@ -56,8 +56,22 @@
 	<insert id="insertPayment"
 			parameterType="com.cafe.app.order.vo.RequestOrderVO">
 		INSERT INTO payment
-		(order_id, merchant_uid, amount, status, pay_method, created_time, updated_time, is_used)
-		VALUES(#{orderId}, #{orderId}, #{amount}, 'READY', '', NOW(), NOW(), 'Y')
+			( ORDER_ID
+			, MERCHANT_UID
+			, AMOUNT
+			, STATUS
+			, PAY_METHOD
+			, CREATED_TIME
+			, UPDATED_TIME
+			, IS_USED)
+		VALUES(#{orderId}
+		      , #{orderId}
+		      , #{amount}
+		      , 'READY'
+		      , NULL
+		      , NOW()
+		      , NOW()
+		      , 'Y')
 	</insert>
 	<insert id="insertOrderItem"
 	        parameterType="map"
