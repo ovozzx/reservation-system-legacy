@@ -97,6 +97,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
+	@Transactional
 	public RequestOrderVO saveOrder(RequestOrderVO requestOrderVO) {
 
 		// ORDERS INSERT : order 최초 1번만 생성
@@ -141,6 +142,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
+	@Transactional
 	public PaymentResponse validateAmount(PaymentValidVO paymentValidVO) {
 		PaymentResponse paymentResponse = new PaymentResponse();
 		// db 가격 조회
@@ -151,7 +153,7 @@ public class OrderServiceImpl implements OrderService{
 		int paidAmount = orderAmount;
 
 		if(paidAmount == orderAmount){
-			// TODO 결제이력 status를 PAID로 업데이트
+			// 결제이력 status를 PAID로 업데이트
 			this.orderRepository.updatePaidPaymentById(paymentValidVO.getOrderId());
 			paymentResponse.setStatus("success");
 			// 좌석 상태값 변경 IN_PROGRESS → RESERVED
@@ -164,7 +166,7 @@ public class OrderServiceImpl implements OrderService{
 			this.orderRepository.updateReservationStatus(paymentValidVO.getOrderId());
 
 		}else{
-			// TODO 결제이력 status를 FAILED로 업데이트
+			// 결제이력 status를 FAILED로 업데이트
 			this.orderRepository.updateFailedPaymentById(paymentValidVO.getOrderId());
 			paymentResponse.setStatus("fail");
 		}
