@@ -149,6 +149,7 @@ public class OrderController {
 
 		requestOrderVO.setMenuVOList(orderList);
 		this.orderService.saveOrder(requestOrderVO);
+		session.setAttribute("orderId", requestOrderVO.getOrderId());
 
 		return "redirect:/order/summary/" +  requestOrderVO.getOrderId();
 	}
