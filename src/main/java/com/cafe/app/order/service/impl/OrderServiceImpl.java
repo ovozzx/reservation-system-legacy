@@ -149,8 +149,10 @@ public class OrderServiceImpl implements OrderService{
 		int orderAmount = this.orderRepository.selectAmountById(paymentValidVO.getOrderId());
 		// pg 가격 조회
 		// GET /payments/{imp_uid}로 조회 시, 404 Not Found 오류 발생 -> 해당 로직 비활성화 처리
+		// 테스트 모드에서 html5_inicis의 결제 건이 아임포트 서버에 실제 저장되지 않아 보임
+		int paidAmount = getPaidAmount(paymentValidVO.getOrderId()); // paymentValidVO.getImpUid() 로는 404가 나옴
 		// int paidAmount = getPaidAmount(paymentValidVO.getImpUid());
-		int paidAmount = orderAmount;
+		// int paidAmount = orderAmount;
 
 		if(paidAmount == orderAmount){
 			// 결제이력 status를 PAID로 업데이트
@@ -195,11 +197,11 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	// 2. 결제 금액 조회
-	public int getPaidAmount(String impUid) {
+	public int getPaidAmount(String merchantUid) {
 		String token = getAccessToken();
 
 		Map response = webClient.get()
-				.uri("/payments/" + impUid)
+				.uri("/payments/find/" + merchantUid)
 				.header("Authorization", "Bearer " + token)
 				.retrieve()
 				.bodyToMono(Map.class)
