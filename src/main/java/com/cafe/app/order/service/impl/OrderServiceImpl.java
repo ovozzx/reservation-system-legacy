@@ -145,6 +145,14 @@ public class OrderServiceImpl implements OrderService{
 	@Transactional
 	public PaymentResponse validateAmount(PaymentValidVO paymentValidVO) {
 		PaymentResponse paymentResponse = new PaymentResponse();
+
+		// 결제 이력 조회 -> 지불된 건이면 return
+		String status = this.orderRepository.selectStatusPayment(paymentValidVO.getOrderId());
+		if("PAID".equals(status)){
+			paymentResponse.setStatus("already_paid");
+			return paymentResponse;
+		}
+
 		// db 가격 조회
 		int orderAmount = this.orderRepository.selectAmountById(paymentValidVO.getOrderId());
 		// pg 가격 조회

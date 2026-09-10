@@ -36,4 +36,6 @@ public interface OrderRepository {
 	int updateFailedPaymentById(String orderId);
 
 	int updatePaidPaymentById(String orderId);
+
+	String selectStatusPayment(String orderId);
 }

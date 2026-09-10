@@ -89,4 +89,10 @@ public class OrderRepositoryImpl extends SqlSessionDaoSupport implements OrderRe
 		return super.getSqlSession().update(this.NAME_SPACE + "updatePaidPaymentById", orderId);
 	}
 
+
+	@Override
+	public String selectStatusPayment(String orderId) {
+		return super.getSqlSession().selectOne(this.NAME_SPACE + "selectStatusPayment", orderId);
+	}
+
 }

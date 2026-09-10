@@ -153,4 +153,11 @@
 		SET STATUS = 'PAID'
 		WHERE ORDER_ID = #{orderId}
 	</update>
+	<select id="selectStatusPayment"
+			parameterType="string"
+			resultType="string">
+		SELECT status
+		FROM payment
+		WHERE ORDER_ID = #{orderId}
+	</select>
  </mapper>

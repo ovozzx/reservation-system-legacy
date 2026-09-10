@@ -111,7 +111,12 @@ $().ready(function () {
                   window.location.href = "/payment/success/" + orderId;
                   // 서버에서 redirect 안 먹음
                 } else {
-                  alert("결제 실패");
+                  if(response.status == "already_paid"){
+                    alert("이미 결제된 주문");
+                  }else{
+                    alert("결제 실패");
+                  }
+
                 }
               },
               error: function (xhr, status, err) {
