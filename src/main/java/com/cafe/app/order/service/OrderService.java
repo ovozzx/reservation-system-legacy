@@ -13,8 +13,6 @@ public interface OrderService {
 
 	PaymentResponse doActionOrderCart(PaymentResponse paymentResponse);
 
-	PaymentResponse requestPayment(List<MenuVO> paymentList);
-
 	RequestOrderVO saveOrder(RequestOrderVO requestOrderVO);
 
 	List<ItemSummaryVO> readItemSummaryById(String orderId);

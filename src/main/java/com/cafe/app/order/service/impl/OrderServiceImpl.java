@@ -69,33 +69,6 @@ public class OrderServiceImpl implements OrderService{
 		return paymentResponse;
 	}
 
-	// 아임포트 기준, 서버에서 결제 요청 불가 
-	@Override
-	public PaymentResponse requestPayment(List<MenuVO> paymentList) {
-		
-		int totalPrice = 0;
-		for(MenuVO menu : paymentList) {
-			totalPrice += menu.getPrice();
-		}
-        // 서버에서 결제 요청 데이터 구성
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("merchant_uid", ""); // 주문 고유 PK
-        payload.put("amount", totalPrice);
-        payload.put("name", "음료");
-        payload.put("pg", "html5_inicis");
-        payload.put("pay_method", "card");
-
-        // PG API 호출
-        return webClient.post()
-                .uri("/v1/payments/prepare") // 아임포트 서버 예시
-                .header("Authorization", "Bearer " + PG_API_SECRET) // 서버에서 키 사용
-                .bodyValue(payload)
-                .retrieve()
-                .bodyToMono(PaymentResponse.class)
-                .block();
-	
-	}
-
 	@Override
 	@Transactional
 	public RequestOrderVO saveOrder(RequestOrderVO requestOrderVO) {
